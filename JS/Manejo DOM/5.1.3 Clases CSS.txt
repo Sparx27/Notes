@@ -1,0 +1,12 @@
+document.card.className
+
+document.card.classList
+
+Agregarle/quitarle una clase:
+document.card.classList.add/remove('nombre de la clase')
+
+Con .toggle si tiene la clase se la quita, y si no la tiene se la agrega.
+Usable para dark y light mod en las paginas.
+
+.replace reemplaza el primer parametro con el segundo:
+document.card.classList.replace('claseActual', 'claseReemplazo')

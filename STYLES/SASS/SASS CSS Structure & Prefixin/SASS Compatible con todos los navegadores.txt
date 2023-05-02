@@ -1,0 +1,6 @@
+VSCode > Settings > live SASS > edit on json:
+
+"liveSassCompile.settings.autoprefix": [
+        "> 1%",
+        "last 2 versions"
+],

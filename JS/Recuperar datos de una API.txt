@@ -1,0 +1,279 @@
+**GET
+
+import { useEffect, useState } from 'react'
+
+const [notes, setNotes] = useState([])
+
+fetch('URL') // El fetch devuelve una promesa, objeto que guarda un valor futuro
+	.then(res => res.json())
+	.then(json => **
+
+** Si aqui hiciera un setNotes(json), todo el componente se volveria a renderizar, este ejecuta setNotes nuevamente y asi
+sin parar, creando un loop infinito.
+SOLUCION: useEffect, una funcion que quiero que se ejecute cada vez que se renderice mi componente. Y lo puedo controlar.
+
+useEffect(() => {
+	fetch('URL') // El fetch devuelve una promesa, objeto que guarda un valor futuro
+		.then(res => res.json())
+		.then(json => {
+			setNotes(json)
+		}
+
+	// CON AXIOS:
+	axios.get('http://localhost:5001/api/notes')
+      	.then(response => setNotes(response.data))
+}, [])
+
+// Dependencias de useEffect: "[]" este efecto lo haces cuando no pase nada, por lo que se ejecuta solamente la primera vez.
+
+
+**POST
+ const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const noteObject = {
+      content: newNote
+    }
+
+    axios.post('http://localhost:5001/api/notes', noteObject)
+      .then(response => response.data)
+      .then(addNote => setNotes(notes.concat(addNote)))
+
+    setNewNote('')
+  }
+
+(El NOTEFORM seria)
+<form onSubmit={handleSubmit} className='noteForm'>
+        <legend><u>Write your new note</u></legend>
+        <input
+          type='text'
+          value={newNote}
+          onChange={handleChange}
+        />
+        <button>Add</button>
+</form>
+
+
+**DELETE
+const handleDelete = (id) => {
+    const deletedNote = notes.find(n => n.id === id)
+    setNotes(notes.map(note => note.id !== deletedNote.id ? note : ''))
+
+    axios.delete(`http://localhost:5001/api/notes/${id}`)
+  }
+
+	// AHORA RENDERIZADO CONDICIONAL PARA LA NOTA VACIA
+
+  return <table>
+    <tbody>
+      {notes.map(note => {
+        if (!note.id) return ''
+        else {
+          return (
+            <tr key={note.id}>
+              <td className='noteContent'>
+                <span className={note.important ? 'important' : ''}>{note.content}</span>
+                <br />
+                {note.date}
+              </td>
+              <td className='options'>
+                <button onClick={() => toggleImportance(note.id)} className='btn-important'>
+                  {note.important ? 'Make not important' : 'Make important'}
+                </button>
+                <button onClick={() => handleDelete(note.id)} className='btn-delete'>
+                  <small>delete</small>
+                </button>
+              </td>
+            </tr>
+          )
+        }
+      })}
+    </tbody>
+  </table>
+
+
+**PUT
+const toggleImportance = (id) => {
+    const note = notes.find(n => n.id === id)
+    const changedNote = {...note, important: !note.important}
+
+    axios.put(`http://localhost:5001/api/notes/${id}`, changedNote).then(returnedNote => {
+      setNotes(notes.map(note => note.id !== id ? note : changedNote))
+    })
+  }
+
+
+**REGISTRO DE USUARIOS
+const [username, setUsername] = useState('')
+  const [name, setName] = useState('')
+  const [password, setPassword1] = useState('')
+  const [password2, setPassword2] = useState('')
+
+  const handleUsername = (e) => {
+    setUsername(e.target.value)
+  }
+  
+  const handleName = (e) => {
+    setName(e.target.value)
+  }
+
+  const handlePassword1 = (e) => {
+    setPassword1(e.target.value)
+  }
+
+  const handlePassword2 = (e) => {
+    setPassword2(e.target.value)
+  }
+
+  const formSubmit = (e) => {
+    e.preventDefault()
+
+    if (password !== password2) {
+      setMessage("Password doesn't match")
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    }
+    else {
+      const userObject = {
+        username,
+        name,
+        password
+      }
+  
+      axios.post('http://localhost:5001/api/users', userObject)
+        .then(response => response.data)
+        .then(action => {
+          setMessage('User register successful')
+          setTimeout(() => {
+            setMessage(null)
+          }, 3500)
+          setUsername('')
+          setName('')
+          setPassword1('')
+          setPassword2('')
+        })
+    }
+  }
+  
+  return (
+    <form onSubmit={formSubmit}>
+        <p>Username</p>
+        <input type='text' value={username} onChange={handleUsername} />
+        <p>Public Name</p>
+        <input type='text' value={name} onChange={handleName} />
+        <p>Password</p>
+        <input type='password' value={password} onChange={handlePassword1} />
+        <p>Confirm your password</p>
+        <input type='password' value={password2} onChange={handlePassword2} />
+        <button>Register</button>
+      </form>
+  )
+
+
+
+**LUEGO DE CONFIGURADO EL JSON WEB TOKEN
+
+HACER EL LOGIN
+
+Carpeta app > Carpeta services > (C) login.js
+
+import axios from 'axios'
+const baseUrl = 'http://localhost:5001/api/login'
+
+export const login = async (credentials) => {
+  const { data } = await axios.post(baseUrl, credentials)
+  return data
+}
+
+Carpeta app > Seccion para el login > import { login } from '../services/login'
+
+  const [message, setMessage] = useState(null)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [loggedUser, setLoggedUser] = useState(null)
+
+  const handleLogin = async (e) => {
+    e.preventDefault()
+
+    try {
+      const user = await login({	// La respuesta del servidor va a ser con un name, username y el token
+        username,
+        password
+      })
+  
+      setUser(user)
+      SetUsername('')
+      setPassword('')
+    } catch (error) {
+      setMessage('Wrong credentials')
+      setTimeout(() => {
+        setMessage(null)
+      }, 3000)
+    }
+  }
+
+Y luego un renderizado condicional para cuando el usuario este logueado:
+{loggedUser === null && <LoginForm setMessage={setMessage} setLoggedUser={setLoggedUser} />}
+{loggedUser !== null && <h2>Wellcome {loggedUser.name}</h2>}
+
+
+
+GUARDAR EL TOKEN EN LOCALSTORAGE
+En el handleLogin agrego:
+
+const handleLogin = async (e) => {
+    e.preventDefault()
+
+    try {
+      const user = await login({
+        username,
+        password
+      })
+
+      window.localStorage.setItem(
+        'loggedNoteAppUser', JSON.stringify(user) // Que guarde el token
+      )
+  ...
+
+Luego, en la seccion donde se interactua con las notas (NotesForm.js):
+Esto sera para leer al localStorage
+
+const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+    }
+  }, [])
+
+
+**CREAR NOTAS
+
+const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const noteObject = {
+      content: newNote
+    }
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      }
+    }
+
+    axios.post('http://localhost:5001/api/notes', noteObject, config)
+      .then(response => response.data)
+      .then(addNote => setNotes([...notes, addNote]))
+
+AUTENTICAR USUARIO CON TOKEN PARA CREAR NOTAS
+Saco el token de user: { token } = user
+
+En el axios.post: axios.post(baseURL, noteObject, {token})
+
+
+
+

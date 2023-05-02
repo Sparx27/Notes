@@ -1,0 +1,26 @@
+Nuevamente, los .then se reemplazan por await:
+
+(() => {
+  const $axiosAsync = document.getElementById("axios-async"),
+    $fragment = document.createDocumentFragment();
+
+  async function getData() {
+    try {
+      let res = await axios.get("https://jsonplaceholder.typicode.com/users"),
+        json = await res.data;
+
+        json.forEach(el => {
+          let $li = document.createElement("li");
+          $li.innerHTML = `ID: ${el.id}, NAME: ${el.name}, USERNAME: ${el.username}`;
+          $fragment.appendChild($li);
+        });
+  
+        $axiosAsync.appendChild($fragment);
+    } catch(err) {
+      let message = err.response.statusText||"Error detected";
+        $axiosAsync.innerHTML = `${err.response.status}: ${message}`;
+    } finally {}
+  }
+
+  getData();
+})();

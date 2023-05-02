@@ -1,0 +1,18 @@
+Live Server
+Error Lens
+CSS Peek (permite ver codigo CSS de las clases, util en tailwind)
+Tailwind CSS IntelliSense
+Auto Rename Tag (para los HTML tags)
+ES7+ React/Redux/React-Native snippets
+Simple React Snippets
+ESLint (para errores y autocorrecciones)
+Live Sass Compiler
+Mithril Emmet
+REST Client
+Version Lens
+vscode-styled-components
+
+ESTETICA:
+Material Icon Theme, VSCode Great Icons, vscode-icons
+(Alguno de esos tres)
+One Dark Pro

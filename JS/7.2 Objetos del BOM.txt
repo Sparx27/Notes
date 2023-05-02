@@ -1,0 +1,26 @@
+OBJETOS
+
+window.location
+Es un objeto que devuelve un monton de valores. Dentro se encuentran:
+
+location.origin  //La ruta de la cual se origina.
+
+location.protocol  //El http o https.
+
+location.host
+
+location.hostname
+
+location.port //Puerto por el cual estoy escuchando, por defecto es 80 y si es este devuelve "".
+
+location.href //La url completa.
+
+location.hash  //Detecta el valor de la url que esta despues de un hash (#) util en SPAs.
+
+location.pathname  //Archivo al que se esta consultando.
+
+location.reload();
+
+
+
+window.history

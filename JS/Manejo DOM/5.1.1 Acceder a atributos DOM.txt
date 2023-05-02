@@ -1,0 +1,44 @@
+A las etiquetas html se les puede agregar atributos
+data-cualquierCosa
+
+Para acceder a los atributos y modificarlos:
+document.documentElement.lang = 'en'
+
+o
+
+document.documentElement.getAttribute('lang')
+document.documentElement.setAttribute('lang', 'en')
+
+Puedo guardarlos en variables (se les agrega un $ al inicio solamente por
+temas de identificar a la variable como objeto del DOM):
+const $linkDOM = document.querySelector(".link-dom");
+
+
+Consultar si un elemento tiene atributo:
+$linkDOM.hasAttribute('rel')
+
+Para remover: $linkDOM.removeAttribute('rel')
+
+
+
+UTILIZAR data-atributes:
+$linkDOM.getAttribute('data-description')
+
+
+$linkDOM.dataset
+Devuelve un Map Object.
+Cada data-atribute lo va guardando en ese Map.
+
+
+
+TRES FORMAS DE ACCEDER:
+const $myh1 = document.querySelector('.playground h1');
+
+console.log($myh1.style)
+console.log($myh1.getAttribute('style'))
+console.log(getComputedStyle($myh1))
+
+
+
+
+

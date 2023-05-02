@@ -1,0 +1,132 @@
+FORMA SIN USAR LIBRERIAS:
+
+const Home = () => <h1>Home</h1>
+
+const Notes = () => <h1>Notes</h1>
+
+const Users = () => <h1>Users</h1>
+
+const inlineStyles = {
+  padding: 5
+}
+
+const App = () => {
+  const [page, setPage] = useState(() => {
+    const { pathname } = window.location
+    const page = pathname.slice(1) // w.location.pathname es /users, /loQueSea
+    return page
+  })
+
+  const getContent = () => {
+    if (page === 'notes') {
+      return <Notes />
+    }
+    else if (page === 'users') {
+      return <Users />
+    }
+    else {
+      return <Home /> // Para solucionar la pagina por defecto en page = pathname.slice(1)
+    }
+  }
+
+  const toPage = page => event => {
+    event.preventDefault()
+
+    window.history.pushState(null, '', `/${page}`)
+    setPage(page)
+  }
+
+  return (
+    <div>
+      <header>
+        <a href='#' onClick={toPage('home')} style={inlineStyles}>Home</a>
+        <a href='#' onClick={toPage('notes')} style={inlineStyles}>Notes</a>
+        <a href='#' onClick={toPage('users')} style={inlineStyles}>Users</a>
+      </header>
+      {getContent()}
+    </div>
+  )
+}
+
+
+FORMA DECLARATIVA: REACT ROUTER
+
+**React router dom => Para cualquier app en el navegador (react router es su core)
+**React router => Una biblioteca que contiene el core del enrutado. No tiene la API suficiente para 
+conectarse con el navegador.
+
+npm install react-router-dom -E (version exacta, le quita el ^)
+
+
+ENRUTADO INICIAL
+En el index.js, import {BrowserRouter} from 'react-router-dom'
+La App deberia envolverse con un <BrowserRouter> </BrowserRouter>
+
+
+RUTAS DE UNA PAGINA
+Son basicamente componentes/elementos
+const Home = () => <h1>Home</h1>
+
+const Search = () => <h1>Search</h1>
+
+
+CONFIGURACION DE LAS PAGINAS
+En la App.js, import { Route, Routes } from 'react-router-dom'
+
+ROUTE: basicamente decirle el path por el cual tiene que renderizarse un elemento
+<Route path='/' element={<Home />} />
+<Route path='/search' element={<Search />} />
+
+ROUTES: es lo que permite elegir la ROUTE adecuada segun el caso. ROUTES envuelve todos los ROUTE. Es para
+indicar todas las rutas que tiene nuestro componente.
+<Routes>
+	<Route path='/' element={<Home />} />
+	<Route path='/search' element={<Search />} />
+</Routes>
+
+
+EXTRA: En App.js, yo podria dejar partes que siempre se mantengan, aun cambiandose el path:
+
+...return (
+	<div>
+		<header> <nav> <ul><li>link 1</li><li> link2</li></ul> </nav> </header>
+		<Routes>
+			<Route path='/' element={<Home />} />
+			<Route path='/search' element={<Search />} />
+		</Routes>
+	</div>
+)
+
+
+CONFIGURAR UNA SPA
+Se cambia la url, sin navegar.
+<Link to='/'>Home</Link>
+<Link to='/search'>Search</Link>
+
+Ahora si, seria una SPA.
+
+
+RUTAS DINAMICAS
+<Route path='/notes/:id' element={<Component />} />
+
+
+HOOKS
+1) import { useParams } from "react-router-dom"
+
+export const NoteDetail = ({notes}) => {
+  const {noteId} = useParams() // De aca recupero ese path, es un hook de react-router-dom
+
+  const note = notes.find(note => note.id === noteId)
+  // Ahora necesitaria leer el path name para obtener el id: del window.location.pathname
+...}
+
+2) import { useHistory } from "react-router-dom"
+
+const history = useHistory()
+
+Con un history.push("/notes") Luego de terminada una accion (como hacer login) reenvia a /notes
+
+
+
+
+

@@ -1,0 +1,55 @@
+Un modelo a seguir para interactuar con html con js.
+
+La etiqueta <template></template> es una que no se visualiza.
+
+Dentro de template, agregaria codigo html ( ejemplo: figure, img, 
+figurecaption ), y le codifico un id al template.
+
+Luego lo utilizo en js con esa id.
+
+Ejemplo:
+
+EN EL HTML
+
+<template id="template-card">
+	<figure class="card">
+		<img />
+		<figcaption></figcaption>
+	</figure>
+</template>
+
+
+EN EL JS
+
+const $cards = document.querySelector("cards"),
+
+$template = document.getElementById('template-card').content,
+
+$fragment = document.createDocumentFragment(),
+
+cardContent = [
+
+	5 objetos compuestos de la siguiente forma:
+	{
+		title: "Tecnologia",
+		img: "https://placeimg..."
+	}
+
+];
+
+NOTA: Este arreglo simularia una peticion fetch/AJAX.
+
+Ahora hago lo siguiente:
+
+cardContent.forEach(el => {
+	$template.querySelector("img").setAttribute("src", el.img);
+	$template.querySelector("img").setAttribute("alt", el.title);
+	$template.querySelector("figcaption").textContent = el.title;
+
+	let $clone = document.importNode($template, true);
+	$fragment.appendChild($clone);
+});
+
+$cards.appendChild($fragment);
+
+

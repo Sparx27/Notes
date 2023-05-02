@@ -1,0 +1,46 @@
+Agregaria el evento a un elemento padre, y luego a traves de un selector que haga coincidencia,
+al realizarse un evento en sus hijos desencadene ese evento declarado en su ancestro.
+
+Una forma eficiente:
+Se genera un listener global para el document, si hay que activar click, dbclick, submit, focus,
+todos los eventos asignados se los pega al document.
+A partir de ahi se detecta cual es el nodo que interesa que active el evento y se desencadena la
+programacion.
+En vez de tener 50 listeners al evento click, solamente se crea 1 al document y se detecta cual es
+el elemento que desencadenara ese evento.
+
+
+DELEGAR EVENTOS:
+
+Al asignar el evento al nodo superior document, no sera necesario detener la propagacion.
+
+document.addEventListener('click', (e) => {
+	console.log('Click en', e.target);
+});
+
+//Ahora cualquier elemento de la pagina al que se le haga click desencadenara el evento click.
+
+
+CONFIGURANDO DELEGACION:
+
+document.addEventListener('click', (e) => {
+	console.log('Click en', e.target);
+
+	if(e.target.matches('.eventos-flujo div') {
+		flujoEventos(e);
+	}
+
+	if(e.target.matches(".eventos-flujo a") { //Recordar que en el div 3 se agrego un <a>
+		alert('un mensaje en pantalla');
+		e.preventDefault();
+	}
+});
+
+**NOTA**: En la funcion
+function flujoEventos(e) {
+	console.log('Hola te saluda ${this.className}, el click lo origino ${e.target.className}')
+}
+
+en this.className hay que modificarlo, porque ahora this hace referencia al objeto global window.
+
+Quedaria: ${this.element.className}

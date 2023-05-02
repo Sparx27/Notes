@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.container {
+  padding: 5rem 2rem 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  row-gap: .7rem;
+  background-color: #0099ff;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background-color: #eee;
+}
+
+.card:nth-child(odd) {
+  background-color: #dde2eb;
+}
+
+.card h3 {
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  color: orangered;
+}

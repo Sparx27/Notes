@@ -1,0 +1,17 @@
+Terminología de la programación funcional:
+
+Callbacks son las funciones que se deslizan o pasan a otra función para decidir 
+la invocación de esa función. Es posible que las hayas visto pasar a otros 
+métodos, por ejemplo en filter, la función callback le dice a JavaScript los 
+criterios para filtrar un arreglo.
+
+Las funciones que pueden ser asignadas a una variable, pasadas a otra función o 
+devueltas desde otra función como cualquier otro valor normal, se llaman 
+funciones de primera clase. En JavaScript, todas las funciones son funciones de 
+primera clase.
+
+Las funciones que toman una función como argumento o devuelven una función como 
+valor de retorno se llaman funciones de orden superior.
+
+Cuando las funciones se pasan o se devuelven desde otra función, las funciones 
+que se pasaron o devolvieron se pueden llamar lambda.

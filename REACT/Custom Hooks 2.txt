@@ -1,0 +1,49 @@
+Tengo:
+const [counter, setCounter] = useState(0)
+
+<div>{counter}</div>
+<button onClick={() => setCounter(counter + 1)> + </button>
+<button onClick={() => setCounter(counter - 1)> - </button>
+<button onClick={() => setCounter(0)> reset </button>
+
+Buscaria extraer la logica del contador y hacerlo reutilizable
+
+
+CUSTOM HOOK
+Todos deben empezar con use.
+
+useCounter = (initialValue) => {
+	const [counter, setCounter] = useState(initialValue)
+
+	const increase = () => setCounter(counter + 1)
+	const decrease = () => setCounter(counter - 1)
+	const reset = () => setCounter(0)
+
+	return {
+		counter,
+		increase,
+		decrease,
+		reset
+	}
+}
+
+Ahora para ejecutarlo:
+const {counter, increase, decrease, reset } = useCounter
+
+<div>{counter}</div>
+<button onClick={icrease}> + </button>
+<button onClick={decrease}> - </button>
+<button onClick={reset}> reset </button>
+
+
+Si ahora quisiera otro contador:
+
+const counterLeft = useCounter()
+const counterRight = useCounter()
+
+<div>{counterLeft.counter}</div>
+<button onClick={counterLeft.icrease}> + </button>
+
+<div>{counterRight.counter}</div>
+<button onClick={counterRight.icrease}> + </button>
+

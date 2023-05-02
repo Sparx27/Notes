@@ -1,0 +1,475 @@
+**Creo carpeta
+
+**npm init -y
+package.json > scripts: "start": "node index.js"
+
+**npm install nodemon -D
+package.json > scripts: "dev": "nodemon index.js"
+
+**npm install dotenv
+Carpeta main > (C) .env > agrego la connection string de MongoDB
+index.js > require('dotenv').config()
+
+**(C) .gitignore > .env | node_modules
+
+**npm install express
+index.js > 
+const express = require('express') | const app = express()
+
+const PORT = process.env.PORT || 3001
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
+
+**npm install eslint -D
+
+**npm install standard -D
+package.json >   
+"eslintConfig": {
+    "extends": "./node_modules/standard/eslintrc.json"
+  }
+
+**npm install cors
+index.js > const cors = require('cors') | app.use(cors())
+
+**npm install mongoose
+.env > 
+MONGO_DB_URI='mongodb+srv://nicnic:<PASSWORD>@cluster0.sotnqbo.mongodb.net/<NOMBRE>?retryWrites=true&w=majority'
+
+Carpeta main > (C) mongodb.js >
+const mongoose = require('mongoose') | const connectionString = process.env.MONGO_DB_URI
+mongoose.connect(connectionString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => console.log(`Database connected`))
+  .catch((err) => console.log(err))
+
+**Crear modelos (clases que validan y luego permiten instancias) para mongodb
+Carpeta main > (C) carpeta models > (C) Notes.js >
+const mongoose = require('mongoose') | const { model, Schema } = mongoose
+const noteSchema = new Schema({
+  content: String,
+  important: Boolean,
+  date: Date
+  // Esto para interrelacionar las notas con los usuarios
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
+})
+
+noteSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id
+    delete returnedObject._id
+    delete returnedObject.__v // No muta la base de datos, muta lo que se devuelve
+  }
+})
+const Note = model('Note', noteSchema)
+module.exports = Note
+
+index.js > require('./mongodb') | const note = require('./models/Note')
+
+
+**Hacer el GET
+app.get('/api/notes', (req, res) => {
+  Note.find({}).then(notes => res.json(notes))
+})
+
+**Hacer el POST
+app.use(express.json())
+app.post('/api/notes', (req, res) => {
+  const { content, important = false } = req.body
+
+  if (!content) {
+    return res.status(400).json({
+      error: 'note content is missing'
+    })
+  }
+
+  const note = new Note({
+    content,
+    important,
+    date: new Date()
+  })
+
+  note.save().then(savedNote => { res.json(savedNote) })
+})
+
+**Hacer el GET by id
+app.get('/api/notes/:id', (req, res) => {
+  const { id } = req.params
+
+  Note.findById(id).then(note => {
+    if (note) res.json(note)
+    else res.status(404).end()
+  })
+})
+
+NOTA: si en la URL hago un localhost:PORT/api/notes/etyertugfje5634rfhvnfb (pongo cualquier cosa de id) el backend se cae.
+SOLUCION: .then(...).catch(err => console.log(err.message): veo el error, el mensaje y lo manejo.
+	En http response cats veo los codigos y hago que devuelva el que sea correto.
+.catch(err => {
+    console.log(err.message) // Sera util para conocer mejor el error si veo el message
+    next(err)
+  })
+
+
+**Comenzar a crear los MIDDLEWARES (en este caso, para manejor de errores)
+en el .catch(err => { next(err) console.log(err.message) }
+
+Al final agrego un: 
+app.use((error, req, res, next) => {
+	console.log(error)
+	console.log(error.name) // Con esto veo el nombre y creo los condicionales para manejo de errores
+	
+	if (error.name === 'CastError') res.status(400).send({ error: "Note's id does not exist" })
+	else res.status(500).end()
+	
+}
+
+**Crear el DELETE
+app.delete('/api/notes/:id', (req, res, next) => {
+  const { id } = req.params
+
+  Note.findByIdAndDelete(id).then(result => {
+    res.status(204).end()
+  }).catch(err => next(err))
+})
+
+
+**Crear el PUT
+app.put('/api/notes/:id', (req, res, next) => {
+  const { id } = req.params
+  const note = req.body
+
+  const newNoteData = {
+    content: note.content,
+    important: note.important
+  }
+
+  Note.findByIdAndUpdate(id, newNoteData).then(result => {
+    res.json(result)
+  })
+})
+
+// Al hacer solamente esto, me devuelve la nota pero vieja. Esto por mongoose y su findByIdAndUpdate.
+	 Note.findByIdAndUpdate(id, newNoteData, { new: true })
+
+
+**Crear USER MODEL
+Carpeta main > models > (C) User.js
+
+const userSchema = new Schema({
+  username: String,
+  name: String,
+  passwordHash: String,
+  notes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Note' // ref al nombre del model al que voy a asociar
+  }]
+})
+
+noteSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id
+    delete returnedObject._id
+    delete returnedObject.__v
+    delete returnedObject.passwordHash // IMPORTANTE: NO DEVOLVER EL PASSWORD
+  }
+})
+const User = model('User', userSchema)
+module.exports = User
+
+DEBO ACTUALIZAR EL MODEL DE NOTAS:
+const noteSchema = new Schema({
+  content: String,
+  important: Boolean,
+  date: Date,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
+})
+
+
+**Crear CONTROLADORES (Con Router)
+Carpeta main > index.js > const usersRouter = require('./controllers/usersRouter')
+
+// Antes de los app.use para manejo de errores
+app.use('/api/users', usersRouter)
+
+Carpeta main > (C) Carpeta controllers > (C) usersRouter.js >
+
+const usersRouter = require('express').Router() 
+// Es una clase que va a permitir usar un router de forma separa a lo del index.js para utilizarlo despues (como un middleware)
+
+usersRouter.post('/' **NOTA: path relativo al especificado en el app.use del index**, (req, res) => {
+  const { username, name, password } = req.body
+
+  const user = new User({
+    username,
+    name,
+    passwordHash: password
+  })
+
+  const newUser = await user.save()
+  res.json(newUser)
+})
+
+module.exports = usersRouter
+
+**HASHEAR PASSWORD
+npm install bcrypt
+
+usersRouter.js > const bcrypt = require('bcrypt')
+// bcrypt se debe ejecutar de forma asincrona para evitar retrasos en el backend
+
+  const passwordHash = await bcrypt.hash(password, 10) // 10 saltRounds (complejidad de encriptado)
+
+  const user = new User({
+    username,
+    name,
+    passwordHash
+  })
+
+
+**RELACIONO LA NOTA CON EL USUARIO
+Carpeta controllers > notesRouter > const User = require('../models/User')
+
+notesRouter.post('/', async (req, res) => {
+  const { content, important = false, userId } = req.body
+
+  const user = await User.findById(userId)
+
+  if (!content) {
+    return res.status(400).json({
+      error: 'note content is missing'
+    })
+  }
+
+  const note = new Note({
+    content,
+    important,
+    date: new Date(),
+    user: user._id // Al user aun no paso por el toJSON, por eso utilizo el _id original (user.toJSON().id)
+  })
+
+  const savedNote = await note.save()
+  res.json(savedNote)
+})
+
+
+**RELACIONO EL USUARIO CON LA NOTA
+En el mismo notesRouter.post
+
+...
+  const note = new Note({
+    content,
+    important,
+    date: new Date(),
+    user: user._id
+  })
+
+  try {
+    const savedNote = await note.save()
+
+    user.notes = user.notes.concat(savedNote._id)
+    await user.save()						//Guardo los cambios realizados en el usuario
+
+    res.json(savedNote)
+  } catch (error) {
+    next(error)
+  }
+
+
+
+**Mejorar rendimiento de las consultas para mostrar informacion, en notes, hay un user: ObjectId. Si quiero que el usuario en
+su propiedad notes, muestre el contenido e informacion de las notas, habria que hacer una nueva consulta a la base de datos
+para que me lo devuelva.
+SOLUCION:
+SIMULAR UN JOIN
+Importante: no sera transaccional, osea que puede recuperar una nota que se haya borrado ya, porque este simulacro no bloquea
+la sobreescritura en los documentos. Va haciendose mientras pueden ocurrir otras peticiones.
+
+En mongoose se utiliza populate, con ese ObjectId recupera la informacion y rellena esa parte del documento llamado notes.
+
+Carpeta controllers > usersRouter
+usersRouter.get('/', async (req, res) => {
+  const users = await User.find({}).populate('notes', { // Este segundo parametro especifica que me quiero traer de notes
+    content: 1,
+    date: 1
+    **_id: 0, Por defecto siempre devuelve el id, se tiene que especificar para que no la devuelva**
+  })
+  res.json(users)
+})
+
+// .populate('notes') toma del model User > notes: Schema.Types.ObjectId, ref: 'Note', de ahi cuando se haga el 
+populate('notes'), va a buscar ese ObjectId y traer esa informacion (content, important, etc).
+
+
+**Mejoro el rendimiento en las notas, mismo proceso
+Carpeta controllers > notesRouter
+
+notesRouter.get('/', async (req, res) => {
+  const notes = await Note.find({}).populate('user', {
+    name: 1
+  })
+  res.json(notes)
+})
+
+
+**Configurar INICIO DE SESION y MANTENER SESION (Autenticacion con Token)
+
+INICIO DE SESION
+Configurar una ruta para inicio de sesion del usuario
+Carpeta api > Carpeta controllers > (C) login.js
+
+const bcrypt = require('bcrypt')
+const loginRouter = require('express').Router()
+const User = require('../models/User')
+
+loginRouter.post('/', async (req, res) => {
+  const { username, password } = req.body
+
+  const user = await User.findOne({ username })
+  const passwordCorrect = user === null
+    ? false
+    : await bcrypt.compare(password, user.passwordHash) // En vez de hashearlo nuevamente, solo compara con el de la Ba.Datos
+
+  if (!passwordCorrect) {
+    res.status(401).json({ error: 'invalid user or password' }) // separo usuario de password
+  } else {
+    res.send({
+      name: user.name,
+      username: user.username
+    })
+  }
+})
+
+module.exports = loginRouter
+
+
+MANTENER SESION
+JSON Web Tokens // Agnostico a donde la puedes guardar a esa sesion, no seria necesario consultar una base de datos.
+
+Ver como funciona:
+Me voy a https://jwt.io/ y escribo mi frase secreta, la que se utilizara desde el backend para verificar los usuarios que
+hayan iniciado sesion.
+
+En la Carpeta api: npm install jsonwebtoken
+
+Carpeta controllers > login.js > const jwt = require('jsonwebtoken')
+
+Primero guardo la informacion a usar en el token:
+const userForToken = {
+	id: user._id,
+	username: user.username
+}
+
+Segundo, firmar el token:
+const token = jwt.sign(userForToken, process.env.SECRET, {
+      expiresIn: 60 * 60 * 24 * 3					// Tiempo para que el token deje de ser valido
+    })
+
+Paso la secret al .env
+
+Tercero, en la respuesta:
+res.send({
+      name: user.name,
+      username: user.username,
+      token					// Agrego el token
+    })
+
+
+**LIMITAR quien puede CREAR NOTAS
+Permitir que los endpoints reciban esta informacion a traves de una cabecera HTTP (Authorization: Esquema)
+Hay varios esquemas de autenticacion. En este caso se usa el Bearer.
+
+Carpeta api > Carpeta controllers > notesRouter.js > const jwt = require('jsonwebtoken')
+
+notesRouter.post('/', async (req, res, next) => {
+  const { content, important = false, userId } = req.body
+
+  const authorization = req.get('authorization') // Recupero la cabecera, se utiliza de esta forma en express
+  let token = null
+  if (authorization && authorization.toLowerCase().startsWith('bearer')) {
+    token = authorization.substring(7) // Recordando el esquema, lo que devuelve es un: Bearer token, por eso guardo del 7 en
+							adelante
+  }
+
+  let decodedToken = {}
+
+  try {
+    decodedToken = jwt.verify(token, process.env.SECRET)  // Decodifico el token
+  } catch (err) {
+    console.log(err)
+  }
+
+  if (!token || !decodedToken.id) {
+    return res.status(401).json({ error: 'token incorrect or missing' })  // Manejo los posibles problemas del token
+  }
+
+  Luego, extraigo el userId del token: (Y antes lo quito del const { content, important = false } = req.body al inicio)
+  const { id: userId } = decodedToken
+  const user = await User.findById(userId)
+
+
+**Crear MIDDLEWARE PARA MANEJO DEL TOKEN (en las notas)
+Carpeta main > (C) Carpeta middlewares > userExtractor.js > const jwt = require('jsonwebtoken')
+
+module.exports = (req, res, next) => {
+  const authorization = req.get('authorization') // Recupero la cabecera, se utiliza de esta forma en express
+  let token = ''
+
+  if (authorization && authorization.toLowerCase().startsWith('bearer')) {
+    token = authorization.substring(7)
+  }
+
+  let decodedToken = {}
+
+  try {
+    decodedToken = jwt.verify(token, process.env.SECRET)
+  } catch (err) {
+    console.log(err)
+  }
+
+  if (!token || !decodedToken.id) {
+    return res.status(401).json({ error: 'token incorrect or missing' })
+  }
+
+  const { id: userId } = decodedToken
+  req.userId = userId	// Cuando utilizo un middleware, puedo guardar informacion en la request para utilizar en otro sitio
+
+  next()  // Con la informacion guardada, pasa a la siguiente ruta
+}
+
+Carpeta main > Carpeta controllers > notesRouter.js > const userExtractor = require('../middlewares/userExtractor')
+
+notesRouter.post('/', userExtractor, async (req, res, next) => {
+  const { content, important = false } = req.body
+
+  const { userId } = req
+
+  const user = await User.findById(userId)
+
+  if (!content) {
+    return res.status(400).json({
+      error: 'note content is missing'
+    })
+  }
+
+	...
+}
+
+Lo siguiente seria pasar el userExtractor al get /:id, put y delete
+
+
+
+
+
+
+
+
+

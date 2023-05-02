@@ -1,0 +1,46 @@
+Serie de propiedades del API del DOM para recorrer, primero tomando como
+referencia un nodo, diferentes elementos.
+
+NOTA: Estos metodos son solo para recorrer los elementos, no otros tipos de 
+nodos. 
+Los "enters" y tabulaciones en el codigo html tambien es otro de los tipos 
+de nodos.
+
+
+Tengo un div class=cards
+
+Y 5 imagenes class=card
+
+const $cards = document.querySelector('.cards');
+
+
+Para recorrer esas 5 imagenes: 
+$cards.children;
+$cards.childrenNodes;
+
+Para acceder a la segunda imagen:
+$cards.children[2];
+
+Para acceder al elemento padre:
+$cards.parentElement;
+
+
+Pseudo selectores:
+$cards.firstChild;	//Este devolveria un nodo de tipo #text, por el
+				  "enter"
+
+$cards.firstElementChild;
+
+Para el ultimo, se reemplaza first con last.
+
+
+Elementos hermanos:
+$cards.previousSibling; (nuevamente un nodo de tipo #text)
+$cards.previousElementSibling;
+
+$cards.nextElementSibling;
+
+$cards.closest('value');
+Va a buscar el ancestro mas cercano del tipo que se le especifique.
+Podria ser: $cards.closest('div');
+

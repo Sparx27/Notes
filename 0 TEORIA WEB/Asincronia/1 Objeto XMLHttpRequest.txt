@@ -1,0 +1,72 @@
+jsonplaceholder es una api falsa para simular peticiones AJAX
+
+1) const xhr = new XMLHttpRequest()
+
+El objeto tiene:
+**readyState: 0,1,2,3,4**
+response: La respuesta que devolvera el servidor
+responseText: La respuesta en formato textual
+responseXML: Respuesta en formato XML
+**status: 0 Codigo de respuesta del servidor (200, 300, etc)**
+statusText: El mensaje que esta dando ese codigo de respuesta (el status)
+withCredentials: false/true //significa que es publica si esta en false
+
+
+2) El siguiente paso es al objeto xhr asignarle un evento: //readystatechange
+Dos formas de hacerlo:
+
+xhr.onreadystatechange = f();
+
+xhr.addEventListener("readystatechange", e => {
+	
+})
+
+//readystatechange se lanza cuando detecta cualquier cambio de estado.
+
+
+3) Asignarle dos instrucciones mas:
+*La que va a abrir la peticion: 
+xhr.open("metodoDeComunicacion(GET,HEAD,POST,TRACE)", "URL de la peticion")
+
+*Enviarle la peticion:
+xhr.send();
+
+
+LOGICA DE LA PROGRAMACION:
+
+$fragment = document.createDocumentFragment();
+
+xhr.addEventListener("readystatechange", e => {
+
+	if(xhr.readyState !== 4) return;
+	//Es para validar que la accion deseada a ejecutar, lo haga cuando state sea 4
+
+	if(xhr.status >= 200 && xhr.status < 300) {
+
+		let json = JSON.parse(xhr.responseText)
+		//Primero convierto a formato JSON la respuesta del servidor y transforma texto en
+		  codigo JavaScript. Se transforma en un array de objetos.
+
+		json.forEach(el => {
+			//Recordar que primero se crea un fragmento para no consumir recursos extras
+			const $element = document.createElement("element")
+			$element.innerHTML = `${el.propiedad1} ${el.propiedadX}`
+
+			//Luego a ese fragment creado al inicio:
+			$fragment.appendChild($element)
+		}
+
+		//Luego de creado y completado el fragment, al elemento con id=xhr le inserto ese
+		  fragment:
+		$xhr.appendChild($fragment);
+		//**$xhr ese el ELEMENTO seleccionado del DOM**
+
+	} else {
+		console.log("Error")
+		let errorCode = xhr.status
+		let message = xhr.statusText || "Error detected"
+		$xhr.innerHTML = `${errorCode}: ${message}`
+	}
+
+	//Fuera de los if else, yo podria crear una animacion Loader
+})

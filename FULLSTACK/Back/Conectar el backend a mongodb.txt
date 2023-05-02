@@ -1,0 +1,43 @@
+0) Archivo en la carpeta default del back: mongodb.js con el connection
+1) Creo una carpeta models (dentro del backend)
+2) Creo Archivo.js con el Schema y Model
+3) En el index.js:
+	1) importo el fichero que conecta a mongo: const connectDB = require('./mongodb.js') y connectDB()
+		sino simplemente: require('./mongodb') y ejecuta todo el fichero,
+		***NOTA: El codigo va al inicio del index.js***
+	2) importo el fichero con el Schema y Model (luego del require cors) y lo asigno a una constante.
+	3) en los app.get creo los notes.find con el codigo adecuado para acceder a la base de datos mongodb.
+
+const mongoose = require('mongoose')
+
+// PARA AGREGAR LOS TESTS, SE VA A EXTRAER TAMBIEN LA CONNECTION STRING PARA TEST
+// NO SE DEBE USAR LA MISMA BASE DE DATOS PARA LOS TESTS
+const { MONGO_DB_URI, MONGO_DB_URI_TEST, NODE_ENV } = process.env
+
+// RECORDAR: Para crear los entornos de ejecucion primero npm isntall cross-env
+// Luego, agregar en el .env y package.json lo correspondiente para que esto funcione
+
+const connectionString = NODE_ENV === 'test'
+  ? MONGO_DB_URI_TEST
+  : MONGO_DB_URI
+
+// Coneccion a mongodb
+mongoose.connect(connectionString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => {
+    console.log('Database connected')
+  }).catch(error => {
+    console.log(error)
+  })
+
+
+package.json:
+ "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "eslint": "eslint .",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "test": "cross-env NODE_ENV=test PORT=3002 jest --verbose tests/user.test.js",
+    "test:watch": "npm run test -- --watch"
+  },

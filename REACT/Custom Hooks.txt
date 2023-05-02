@@ -1,0 +1,95 @@
+Suelen crearse para reutilizar una funcion.
+La ventaja frente a un Helper es el de mantener un estado dentro del propio Hook.
+
+Creo carpeta dentro de src > hooks > useNombreDelHook.jsx (mantener esta sintaxis)
+
+
+const useNombreDelHook.jsx = () => {
+
+/////////////////////////////////////////////////////////
+EJEMPLO SENCILLO PARA ENTENDER:
+
+	const unaFuncionCualquiera = () => { console.log('Desde Custom Hook') }
+
+	return [unaFuncionCualquiera]
+
+
+LUEGO EN UN COMPONENTE:
+import useNombreDelHook from '../hooks/useNombreDelHook'
+
+const Componente => {
+	
+	const [ nombreQueLeQuieraDarALaFuncion ] = useNombreDelHook (como en useState)
+	
+	nombreQueLeQuieraDarALaFuncion()	//Y Ahi la mando llamar
+ 
+	return (
+		...
+	)
+}
+
+/////////////////////////////////////////////////////////
+
+}
+
+//NOTAS:
+	Tendra una sintaxis como la de un Componente, solo que el return sera de un objeto o un arreglo.
+
+
+
+
+
+Ejemplo de un <select> con Custom Hook:
+
+
+//EN EL CUSTOMHOOK.JSX
+
+const useSelectValue = (label, values) => {
+  const [state, setState] = useState('')
+  
+  const SelectCurrency = () => (
+    <>
+      <Label>{label}</Label>
+      <Select
+        value={state}
+        onChange={e => setState(e.target.value)}
+      >
+        <option value=''>---</option>
+        {
+          values.map(val => 
+            <option
+              key={val.id}
+              value={val.id}
+            >
+              {val.name}
+            </option>
+          )
+        }
+      </Select>
+    </>
+  )
+
+  return [state, SelectCurrency]
+}
+
+
+
+//LUEGO EN UN COMPONENTE
+
+import useSelectValue from '../hooks/useSelectValue'
+
+const Form = ({ setBothValues }) => {
+  const [currency, SelectFiat] = useSelectValue('Select Currency', fiatOptions)
+  const [crypto, SelectCrypto] = useSelectValue('Select Cryptocurrency', cryptocurrency)
+
+	//NOTA: fiatOptions y cryptocurrency obtenian sus valores de una API
+
+return (
+    <form onSubmit={handleSubmit}>
+
+      <SelectFiat />	//Uno de los retornos del Custom Hook (una funcion que devuelve un componente, en este caso un input)
+      <SelectCrypto />
+      <InputSmb type='submit' value='Send'/>
+    </form>
+  )
+}

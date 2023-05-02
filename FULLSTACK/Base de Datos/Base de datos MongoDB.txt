@@ -1,0 +1,54 @@
+SQL son relaciones, basadas en tabla, esquemas, columnas. Reglas duras y relaciones entre distintas
+tablas, en MongoDB no existen (se pueden simular)
+
+MongoDB es no relacional, basada en colecciones, y dentro de estas colecciones, los documentos (parecidos
+a JSON), son bastante mas rapidas y su esquema son libres (no son tan rigidos) **Se arregla con el
+framework Mongoose***.
+
+Escala horizontalmente (mas maquinas mas escala). En SQL es vertical (aumentar la potencia de la maquina).
+
+1) Ingreso a MongoDB > Sign In > Me registro y luego entro.
+2) Build Database > Free Option > Elijo aws, region > Create Cluster.
+3) Creado el Cluster, creo un usuario y contrasenia para la database > Local Environment > IP Adress
+	> Finish and Close
+4) Connect to Cluster > Connect your application > node 2.2.12 or later > ***Copio el connect string***
+
+**OPCIONAL**
+5) Instalo robomongo 3T, etc etc etc etc etc etc > Help > Trial > Switch Free Product
+6) Para conectarme a la database, Connect > connect string (agregar el password, en el connect string
+	debo borrar TODO el <password>)
+	***NOTA: AL IP QUE TENGO VA CAMBIANDO, DEBO IRLA ACTUALIZANDO EN MONGO DB PARA INGRESAR***
+7) Una vez conectado, elijo el que tiene la P en el icono.
+
+8) En la consola de comandos, use nombreBaseDatos (cualquier nombre).
+
+9) db.createCollection('posts') //Regla que al crear colecciones el nombre sea en plural
+	NOTA: Refresh all en Replica Set Members y veo mi nueva database.
+
+10) db.algo.insert({ name: 'algo' img: 'https://...' etc }) //Agrega documentos a la coleccion 'algo'
+	NOTA: De no existir la coleccion con nombre algo, la crea en ese momento.
+
+11) db.algo.find() o db.algo.find({name: 'algo'})
+
+12) db.algo.update( {user: 'algo'}, {
+	 $set: {
+		name: 'otra cosa'
+	 }
+    })
+
+
+
+CONFIGURACIONES EN MONGODB:
+Al no saber que ip usara Heroku, me voy a Network Access > ADD IP ADRESS > 0.0.0.0/0 (todas las IPs)
+
+
+
+AGREGAR UN OBJECT MODELING PARA NODE: MONGOOSE
+Crea lo relacionado a validacion, logica que evita errores, crea la posibilidad de tener esquemas en la
+app (al aniadir un documento a la coleccion, habra un esquema y haga la validacion).
+
+
+
+PASO AL BACKEND:
+Ahora los cambios comenzaran a persistir.
+Instalo: npm install mongoose

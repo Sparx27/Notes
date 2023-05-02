@@ -1,0 +1,49 @@
+CREAR ELEMENTOS
+
+document.createElement('etiqueta')
+
+document.createTextNode('texto')
+
+$selectedElement.appendChild(document.createElement('etiqueta');
+
+
+CREAR Y/O MODIFICAR ATRIBUTOS
+
+$img.setAttribute('src', 'https://placeimg.com/200/200/animals');
+
+$selectedElement.classList.add('class name');
+
+
+METODO FOREACH
+
+const array = [...],
+$ul = document.createElement('ul');
+document.body.appendChild($ul);
+
+array.forEach(el => {
+	const $li = document.createElement('li');
+	$li.textContent = el;
+	$ul.appendChild($li);
+});
+
+
+
+CREAR FRAGMENTOS
+
+*Son otro tipo de nodo*
+
+const array = [...],
+$ul = document.createElement('ul'),
+
+$fragment = document.createDocumentFragment();
+
+array.forEach(el => {
+	const $li = document.createElement('li');
+	$li.textContent = el;
+	$fragment.appendChild($li);
+});
+
+$ul.appendChild($fragment);
+
+document.body.appendCHild($ul);
+

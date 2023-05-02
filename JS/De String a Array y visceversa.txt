@@ -1,0 +1,8 @@
+let str = "Hola que tal amigo mio";
+let arr = str.split(' ');
+
+let arr2 = ["Esto", "Es", "Un", "Arreglo"];
+let str2 = arr2.join(' ');
+
+*Con join y split se debe introducir el nuevo arreglo/cadena de texto en una variable nueva. 
+No se puede simplemente transformarla.

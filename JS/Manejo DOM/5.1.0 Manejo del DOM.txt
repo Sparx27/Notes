@@ -1,0 +1,51 @@
+NO CONFUNDIR:
+Una etiqueta html, que para JS es un elemento.
+Nodos, hay de distintos tipos: los comentarios, las etiquetas son otro 
+tipo de nodo, los textos (parrafos, texto literal, encabezados, etc) 
+tambien son nodos.
+
+En la documentacion mozilla se encuentran en Node.nodeType (son 12).
+
+
+Para la interaccion de JS con html, los nodos de interes seran los de
+tipo texto y los nodos de tipo elemento.
+
+
+
+SELECTORES:
+*Estos devolveran colecciones*
+
+document.getElementsByTagName()
+Devuelve un HTMLCollection
+
+document.getElementsByClassName()
+No se necesita ponerle el . al nombre de la clase.
+
+document.getElementsByName()
+Importante en los formularios, asi cuando se envian al servidor este los
+detecta como requests de tipo POST. Devuelve un NodeList.
+
+document.getElemenById()
+Element en singular.
+
+
+IMPORTANTE:
+Los tres primeros han sido reemplazados por dos selectores que se llaman:
+
+document.querySelector("value")
+Recibe como parametro un selector valido de CSS (una clase, id, 
+etiquetas dentro de clases [ej: .box h1] o pseudo elementos)
+Solamente devuelve el primer match con value.
+
+document.querySelectorAll("value")
+Funciona igual, pero hace match con todos los que tengan ese valor.
+Devuelve NodeList.
+
+En ambos casos, por ejemplo un value que sea para una clase, si hay que
+escribir el .
+
+
+
+METODOS PARA SELECTORES:
+
+document.querySelectorAll("a").forEach(el => console.log(el))

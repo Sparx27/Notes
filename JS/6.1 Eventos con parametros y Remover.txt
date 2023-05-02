@@ -1,0 +1,56 @@
+<button id='evento-multiple'>Boton</button>
+
+const $eventoMultiple = document.getElementById('evento-multiple');
+
+
+function saludar(nombre = 'desconocid@') {
+	alert(`hola ${nombre}`)
+}
+
+$eventoMultiple.addEventListener('click', saludar);
+//El evento retornara el objeto event, aun teniendo la funcion un 
+parametro.
+
+
+Solucion anterior a las arrow functions:
+
+$eventoMultiple.addEventListener('click', function() {
+	saludar()
+	saludar('Marcos')
+});
+
+
+Con arrow function:
+
+$eventoMultiple.addEventListener('click', () => saludar());
+//Como ahora saludar ya no es la funcion manejadora del evento, ahora si
+  se le agregan los ()
+
+
+
+REMOVER EVENTOS
+
+<button id='removedor'>Boton</button>
+
+const $eventoRemovedor = document.getElementById('removedor');
+
+
+**Necesariamente necesita dos parametros, por lo que se la declara
+previamente**
+
+const removerDobleClick = () => {
+	alert(`Removiendo el event de tipo ${e.type}`);
+	$eventoRemovedor.removeEventListener('dbclick', removerDobleClick)
+	//Agregar un plus al efecto
+	$eventoRemovedor.disabled = true;
+}
+
+
+$eventoRemovedor.addEventListener('dbclick', removerDobleClick);
+
+
+
+
+
+
+

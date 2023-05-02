@@ -1,0 +1,113 @@
+SELECCION DE ELEMENTOS
+
+document.form/images/styleSheets/charset
+
+document.getSelection()	//Usar con setTimeout()
+
+
+SELECTORES DE COLECCION
+
+document.querySelector("element/.class/#id")
+
+document.querySelectorAll("element/.class")
+
+document.getElemenById('id')
+
+
+SELECTORES Y MODIFICADORES DE ATRIBUTOS
+
+document.documentElement.getAttribute('lang/data-description')
+
+document.documentElement.setAttribute('lang', 'en')
+
+
+**Para facilitar se guarda un elemento por su clase en una variable:**
+const $linkDOM = document.querySelector(".class");
+
+$linkDOM.hasAttribute('rel')
+
+$linkDOM.removeAttribute('rel')
+
+$linkDOM.dataset
+
+
+SELECTORES DE CSS
+
+**const $myh1 = document.querySelector('.playground h1');**
+
+$myh1.style.cssPropertyInLowerCamelCase
+
+$myh1.getAttribute('style')
+
+window.getComputedStyle($myh1)
+
+
+MODIFICADORES DE CSS
+
+**const $divBox document.querySelector('.box');**
+
+$divBox.style.backgroundColor = black;
+
+document.element/querySelector.classList.add/remove('nombre de la clase')
+
+document.card.classList.replace('claseActual', 'claseReemplazo')
+
+document.card.classList.toggle('add/remove class')
+
+
+SELECTORES Y MODIFICADORES DE NODOS
+
+$element.textContent = text;
+
+$element.innerText = text;
+
+$element.innerHTML = text;
+
+$element.outerHTML //reemplaza lo que exista en ese elemento por lo que se 
+			   le especifique.
+
+
+DOM TRAVERSING
+
+$cards.children;
+$cards.childrenNodes;
+
+$cards.children[2];
+
+$cards.parentElement;
+
+$cards.firstChild  //Probablemente devuelva un nodo de tipo #text
+
+$cards.firstElementChild;
+
+$cards.lastElementChild;
+
+Elementos hermanos:
+$cards.previousElementSibling;
+
+$cards.nextElementSibling;
+
+****
+
+Ancestro mas cercano del tipo que se le especifique
+$cards.closest('value');  //Ejemplo $cards.closest('div');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

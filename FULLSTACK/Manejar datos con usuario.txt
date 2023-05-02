@@ -1,0 +1,201 @@
+******LOGIN*******
+BACKEND:
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+const loginRouter = require('express').Router()
+const User = require('../models/User')
+
+loginRouter.post('/', async (req, res) => {
+  const { username, password } = req.body
+
+  const user = await User.findOne({ username })
+  const passwordCorrect = user === null
+    ? false
+    : await bcrypt.compare(password, user.passwordHash)
+
+  if (!passwordCorrect) {
+    res.status(401).json({ error: 'invalid user or password' })
+  } else {
+    const userForToken = {
+      id: user._id,
+      username: user.username
+    }
+
+    const token = jwt.sign(userForToken, process.env.SECRET, {
+      expiresIn: 60 * 60 * 24 * 3
+    })
+
+    res.send({
+      name: user.name,
+      username: user.username,
+      token
+    })
+  }
+})
+
+module.exports = loginRouter
+
+
+FRONTEND:
+const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleLogin = async (e) => {
+    e.preventDefault()
+
+    try {
+      const user = await login({
+        username,
+        password
+      })
+
+      window.localStorage.setItem(
+        'loggedNoteAppUser', JSON.stringify(user)
+      )
+  
+      setLoggedUser(user)
+      setUsername('')
+      setPassword('')
+    } catch (error) {
+      setMessage('Wrong credentials')
+      setTimeout(() => {
+        setMessage(null)
+      }, 3000)
+    }
+  }
+
+{loggedUser === null && <LoginForm setMessage={setMessage} setLoggedUser={setLoggedUser} />}
+
+{loggedUser !== null && <h2>Wellcome {loggedUser.name}</h2>}
+
+
+******GET*******
+
+BACKEND:
+notesRouter.get('/', async (req, res) => {
+  const notes = await Note.find({}).populate('user', {  // .populate para que me lleguen esos datos de user al FRONTEND
+    name: 1,
+    username: 1
+  })
+  res.json(notes)
+})
+
+
+FRONTEND:
+const [notes, setNotes] = useState([])
+
+useEffect(() => {
+    axios.get('http://localhost:5001/api/notes')
+      .then(response => setNotes(response.data))
+  }, [])
+
+
+******POST*******
+
+BACKEND:
+notesRouter.post('/', userExtractor, async (req, res, next) => {
+  const { content, important = false } = req.body
+
+  const { userId } = req
+
+  const user = await User.findById(userId)
+
+  if (!content) {
+    return res.status(400).json({
+      error: 'note content is missing'
+    })
+  }
+
+  const note = new Note({
+    content,
+    important,
+    date: new Date(),
+    user: user._id
+  })
+
+  try {
+    const savedNote = await note.save()
+
+    user.notes = user.notes.concat(savedNote.id)
+    await user.save()
+
+    res.json(savedNote)
+  } catch (err) {
+    next(err)
+  }
+})
+
+FRONTEND:
+const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const noteObject = {
+      content: newNote
+    }
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      }
+    }
+
+    axios.post('http://localhost:5001/api/notes', noteObject, config)
+      .then(response => (response.data))
+      .then(addNote => setNotes([...notes, addNote]))
+
+    setNewNote('')
+  }
+
+
+******PUT*******
+
+BACKEND:
+notesRouter.put('/:id', userExtractor, async (req, res, next) => {
+  const { id } = req.params
+  const note = req.body
+
+  const newNoteData = {
+    content: note.content,
+    important: note.important
+  }
+
+  try {
+    const changedNote = await Note.findByIdAndUpdate(id, newNoteData, { new: true })
+      .populate('user', {
+        name: 1,
+        username: 1
+      })
+    res.json(changedNote)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+FRONTEND:
+const toggleImportance = (id) => {
+    const note = notes.find(n => n.id === id)
+    if (note.user.username === user.username) {
+      const changedNote = {...note, important: !note.important}
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      }
+    }
+
+    axios.put(`http://localhost:5001/api/notes/${id}`, changedNote, config)
+      .then(response => {
+        setNotes(notes.map(note => note.id !== id ? note : response.data))
+      })
+    }
+  }
+
+
+******POST*******
+
+
+
+
+
+
+

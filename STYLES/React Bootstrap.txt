@@ -1,0 +1,51 @@
+npm install react-bootstrap bootstrap
+
+IMPORTAR ESTILOS:
+En el index.js:
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+Ciertas clases comienzan a estilizar elementos HTML.
+Ejemplo: <div className='container'></div>
+
+
+Componentes enteros:
+
+NOTA: Hay dos formas, 
+import { Table } from 'react-bootstrap' (importa todos los componentes)
+import TableOCualquierOtroNombre from 'react-bootstrap/Table' (mucho mas eficiente)
+
+<Table striped> // Ctrl + Espacio: muestra las props posibles, lo estilan
+
+</Table>
+
+
+<Form >
+	<Form.Group id='username'>
+		<input || Form.Control />
+	</Form.Group>
+
+	<Form.Group id='password'>
+		<input />
+	</Form.Group>
+</Form>
+
+
+<Navbar bg="myBg" variant="dark" expand="lg"> // CSS RULE: .bg-myBg: { color }
+      <Container>
+        <Navbar.Brand as={Link} to='/'>Sparx MERN Notes App</Navbar.Brand>
+
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to='/'>Home</Nav.Link>
+            <Nav.Link as={Link} to='/notes'>Notes</Nav.Link>
+            {user === null && <Nav.Link as={Link} to='/account'>User</Nav.Link>}
+            {user !== null && <h3 className='links'><i>{user.name}</i></h3>}
+            {user !== null && <button onClick={handleLogOut}>Log out</button>}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+</Navbar>
+

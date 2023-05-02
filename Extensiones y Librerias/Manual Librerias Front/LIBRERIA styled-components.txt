@@ -1,0 +1,26 @@
+npm i @emotion/react @emotion/styled
+
+
+/*********** INTEGRAR EN UN COMPONENTE ***********/
+
+Importo la libreria:
+
+import styled from '@emotion/styled'
+
+
+Creo el elemento HTML junto a su CSS:
+
+const Nombre = styled.h1`
+	font-size: 2em;
+	text-transform: uppercase;
+`
+
+
+Y luego en el return del componente:
+
+<Heading>Nuestros Productos</Heading>	// SE CREA UN <h1>
+
+
+/*********** EXTENSION PARA VSC ***********/
+
+vscode-styled-components	// MEJOR AUTO COMPLETADO

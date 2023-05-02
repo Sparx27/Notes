@@ -1,0 +1,5 @@
+Blanco: #f1f1f1
+Rojo: #DC2626
+Rojo Error: #B7322C
+Azul Marino Elegante: #0D2235
+Celeste: #66A2FE

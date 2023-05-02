@@ -1,0 +1,111 @@
+LOS ESTADOS SALEN CAROS, TIENEN QUE SER LOS MENOS POSIBLES.
+
+Los estados no van ni dentro de bucles, ni condicionales. Los estados van dentro del componente solos.
+
+No se codifican componentes dentro de otros componentes, todos por separado.
+
+Cada hijo en un Array deberia tener una PROP key con un identificador unico.
+La prop key debe especificarse en el mismo lugar que se hace la iteracion.
+**notes.map(note => 
+          <Note key={note.id} content={note.content} date={note.date} /> //Recodar, es un componente
+        )**
+
+Ver props con: console.log( {props} )
+
+NO mutar los arrays/objetos, cada vez que se actualice un estado se debe CREAR un array/objeto nuevo.
+
+useEffect se ejecuta luego de renderizado el componente, ejecuta el useEffect y renderiza de nuevo.
+renderiza
+ejecuta useEffect
+comienza el fetch
+setea la data de la API
+renderiza
+
+
+
+NODE.JS
+npm install nodemon -D  //Instalar las dependencias localmente
+
+Dependencias de Produccion: necesarias para que el proyecto funcione.
+Dependencias de Desarrollo: solo te utilizan mientras estamos desarrollando.
+
+"scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+
+Semantic Version:
+0) ^ Caret o tilde, hasta cierto punto esta dependencia se va a actualizar automaticamente.
+	Para quitar este autoupadte: npm install -E.
+1) Major, Versiones que cambian el contrato del paquete.
+2) Minor, New Feature.
+3) Version Patch (arreglo), si sube de numero es que se arreglo algun bug.
+
+
+app.get('/', (request, response) => {
+  response.send('<h1>Hello World!</h1>')
+})
+**Aqui le paso un formato HTML y express detecta el content-type automaticamente**
+
+app.get
+app.post
+app.delete
+app.put
+
+Lint o linters son herramientas que detecta y te seniala errores en el codigo en cualquier lenguaje
+de programacion, en este caso JS, puntualmente con Node.express.
+Crea un code rules para escribir segun algun estandar.
+
+**ANTES DE INSTALARLO Y CONFIGURARLO**
+En VSCode, instalo la extension ESLint (y Error Lens para verla en la misma linea) y en sus Settings:
+
+
+El mas extendido es npm install eslint -D
+Para ejecutarlo:
+1) ./node_modules/.bin/eslint --init
+2) Instalo la segunda dependencia
+3) Elijo  How would you like to use ESLint? · problems
+4) What type of modules does your project use? · commonjs
+5) Which framework does your project use? · none
+6)  Does your project use TypeScript? · No / Yes
+7)  Where does your code run? · browser
+8)  What format do you want your config file to be in? · JavaScript
+***EN CONSOLA: ./node_modules/.bin/eslint .*** y los errores se ven con consola
+9) En package.json:
+"scripts": {
+    "dev": "nodemon index.js",
+    "eslint": "eslint .", ***EN CONSOLA npm run eslint***
+10) En el archivo .eslintrc.js:
+module.exports = {
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true,
+       *** "node": true*** SE LO AGREGO
+    },
+
+OPCION MAS ACONSEJABLE PARA CONFIGURAR ESLINT:
+standard/standard en GitHub
+1) npm install standard -D
+2) En package.json:
+},
+  "dependencies": {
+    "express": "4.18.2"
+  },
+  ***"eslintConfig": {
+    "extends": "./node_modules/standard/eslintrc.json"
+  }*** SE LO AGREGO
+3) Borro el archivo .eslintrc.js
+
+
+MIDDLEWARES (EN NODE)
+Una funcion que intercepta la peticion que esta pasando por la API.
+app.use( callback(req, res, next) ) => {
+	req.method
+	req.path
+	req.body
+	next() // Para pasar a la siguiente accion
+}
+La request pasa primero por ahi y luego pasa a las otras del post,put,etc.
+Ejemplo: app.use(express.json())

@@ -1,0 +1,7 @@
+innerWidth no es recomendable por temas de altura.
+
+Los problemas se solucionan con matchMedia:
+
+Es un metodo al que hay que pasarle una media query de css como string, con los parentesis.
+
+matchMedia("(min-width: 400) and (orientation: 'landscape')")

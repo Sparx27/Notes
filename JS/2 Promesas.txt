@@ -1,0 +1,85 @@
+Documentacion CLARISIMA
+https://www.youtube.com/watch?v=pHBmmbDQl0o
+
+Visto como un if else.
+Si la promesa se cumple entonces...
+Si hay un error entonces...
+
+Tengo una promesa:
+const promesa = new Promise(function(resolve, reject) {
+
+	Hago una ejecucion inicial:
+	let suma = 2 + 6
+	
+	Luego en base a esa primera accion, habra un valor devuelto por
+	resolve, y otro valor que se devolvera con reject:
+	if(suma === 8) {
+		resolve('Correcto');
+	} else {
+		reject('Error');
+	}
+});
+
+Luego esos valores se pasaran a otra accion:
+
+promesa
+.then(function(valorDevueltoPorResolve) {
+	console.log(valorDevueltoPorResolve);
+})
+.catch(function(valorDevueltoPorReject) {
+	console.log(valorDevueltoPorReject);
+})
+
+
+Puedo concatenar promesas con .then:
+Estaria devolviendo otra promesa a partir de la primera:
+
+Hago otra promesa:
+const promesa2 = new Promise((resolve, reject) => {
+	if (valorDevueltoPorResolve > 10) {
+		resolve('Es mayor a 10');
+	} else {
+		reject('Es menor a 10');
+	}
+})
+
+
+promesa
+.then(function(valorDevueltoPorResolve) {
+	return promesa2(valorDevueltoPorResolve);
+)}
+.then(function(valorDevueltoPorResolve2) {
+	console.log(valorDevueltoPorResolve2);
+)}
+.catch(function(valorDevueltoPorReject || valorDevueltoPorReject2) {
+	console.log(valorDevueltoPorReject||valorDevueltoPorReject2);
+)}
+
+
+
+Funcion que devuelve una promesa:
+
+function miPromesa(value) {
+	return new Promise((res, rej) => {
+		accion en base a value...
+	)}
+}
+
+miPromesa().then(...).catch(...)
+
+
+
+MANEJO COMODO DEL ERROR:
+
+function promesa(value) {
+	
+	if(typeof value !== "number") {
+		return Promise.reject('Error, no es un numero')
+	}
+
+	return new Promise((resolve, reject) => {
+		Accion con value...
+		resolve(algo)
+	}
+
+}

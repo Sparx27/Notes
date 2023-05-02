@@ -1,0 +1,40 @@
+XML ha venido siendo bastante reemplazado por JSON.
+
+TRADITIONAL WEB APPLICATION MODEL
+Web Browser -> HTTP REQUEST -> Web Server -> QUERY/DATA REQUEST -> Database
+Database -> DATA -> Web Server -> HTML,CSS,JS -> Web Browser
+
+AJAX se coloca como un motor intermediario entre la interfaz del usuario del navegador y el
+servidor. Esto permite que sin tener que recargar la pagina la Database le entregue informacion
+al usuario y su Browser.
+
+La gracia de AJAX esta en la naturaleza asyncrona: Se puede comunicar con el servidor,
+intercambiar datos y actualizar la interfaz del usuario sin necesidad de recargar el navegador.
+
+AJAX es la union de varias tecnologias:
+HTML y CSS para crear una presentacion basada en estandares.
+DOM para interaccion y manipulacion dinamica de la presentacion.
+HTML, XML y JSON para el intercambio y la manipulacion de informacion.
+XMLHttpRequest y Fetch para el intercambio asincrono de informacion.
+JavaScript para unir todas las demas tecnologias.
+
+API Fetch es la forma moderna de hacer AJAX.
+Libreria utilizada: Axios
+
+
+ESTADOS DE UNA PETICION ASYNCRONA:
+READY_STATE_UNINITIALIZED = 0 //Peticion al servidor
+READY_STATE_LOADING = 1 //Se estan enviando los datos al servidor
+READY_STATE_LOADED = 2 //Ya el servidor respondio al cliente, pero este no tiene la informacion
+READY_STATE_INTERACTIVE = 3 //JS ya tiene acceso a la informacion
+READY_STATE_COMPLETE = 4 //Se completa AJAX y los datos estan listos para manipular la info
+
+
+CODIGOS DE ESTADO DE RESPUESTA HTTP
+https://developer.mozilla.org/es/docs/Web/HTTP/Status
+
+Respuestas informativas (100–199),
+Respuestas satisfactorias (200–299),
+Redirecciones (300–399),
+Errores de los clientes (400–499),
+y errores de los servidores (500–599).

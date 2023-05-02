@@ -1,0 +1,6 @@
+1) Entro a la carpeta de interes
+2) CONSOLA: git init
+3) git add . (agrega todo)
+4) git commit -m 'Comentario'
+5) git remote add origin https://github.com/Sparx27/***NOMBRE REPOSITORIO***
+6) git push -u origin master

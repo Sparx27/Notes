@@ -1,0 +1,115 @@
+1) Creo una nueva carpeta, inicializo el proyecto y hago un npm init para gitHub: npm init -y
+
+2) En consola, estando DENTRO de la carpeta, copio el proyecto de una carpeta a esta nueva:
+	2.1) Me copio el Back-end (La API): 
+		cp -r (la direccion de la carpeta a copiar, a partir de la que estoy) (A una carpeta api)
+		cp -r ../node ./api
+	2.2) Me copio el Front-end (La APP):
+		cp -r ../part-Notes ./app
+
+	NOTA: Luego de copiado, en consola con un code . abre el proyecto en VSCode
+
+3) En el packaege-json de monorepo (se crea con npm init -y) le agrego "private": true
+{
+  "name": "monorepo",
+  "private": true,
+...
+
+4) Unificar paquetes como ESLint que esta en la api como la app, lo consigo agregandolos al package.json
+   del monorepo (a la raiz del proyecyo). Simplemente corto y pego lo que vaya queriendo unificar.
+	Con ESLint:
+	"eslintConfig": {
+    		"extends": "./node_modules/standard/eslintrc.json",
+    		"env": {
+      	"jest": true
+    		}
+  	}, // Lo corto de la api y lo paso al paquete raiz
+	
+	Lo mismo con las dependencias: "eslint", "standard" y los paso a la raiz como
+	 "devDependencies": {
+    		"eslint": "eslint .",
+    		"standard": "17.0.0"
+  	 },
+
+	Luego en la app lo relacionado a Cypress y ESLint
+
+5) En npm 7 hay una funcionalidad: npm workspaces (https://docs.npmjs.com/cli/v7/using-npm/workspaces).
+	En el paquete de la raiz, en el primer bloque agrego:
+...
+"description": "",
+  "main": "index.js",
+  "workspaces": [
+    "api",
+    "app"
+  ],
+	NOTA: Podria hacer especificando dond esta, "components/**"
+
+6) Borro el node_modules de la api y de la app
+6.1) Luego, hago el npm install en la carpeta raiz. Esto hara que busque en ambas carpetas las dependencias
+	que se necesiten y crea una nueva carpeta con todo lo necesario en la raiz.
+
+7) Debo arreglar los repositorios para que en GitHub todos vayan al mismo:
+	En la carpeta raiz: rm -rf ./api/.git y rm -rf ./app/.git
+7.1) Agrego un .gitignore para node_modules y .env
+
+8) Prueba npm run dev o npm start para ver que la api se levanta correctamente
+8.1) En app: el npm install create-react-app no funcionaba del todo bien con los workspaces y node 7
+	PERO ya pareceria haberse solucionado. Se soluciona con un SKIP_PREFLIGHT_CHECK=true en el .env de la
+	app.
+
+9) En la carpeta app, si hay un carpeta build la elimino, rm -rf ./build
+	y luego la reinstalo (en la carpeta app), npm run build
+
+10) Antes, de ingresar a la url '/' de la api aparecia un Hello World!, borro eso de la api y lo cambio por
+    un app.use(express.static('../app/build'))
+
+11) En la carpeta app, en los services, todas aquellas baseUrl estan relacionadas al local host, esto en
+    produccion y deployado no tendria sentido.
+	Cambios los http localHost por: '/api/notes', '/api/login' y en general toda esas rutas creadas en el
+	Back-end.
+11.1) Hago nuevo npm run build desde la carpeta app
+
+12) Si desde la carpeta app hago un npm start, esta se levanta en el puerto 3000 y sin las notas, aun
+    teniendo la api levantada. Esto por el cambio 11. Esto porque se va al puerto 3000 y la api se levanta
+    levanta en el 3001. Este problema solo es en desarrollo, y se arregla:
+	En el package.json de app, al final le agrego: "proxy": "http://localhost:3001".
+	Seria interceptar una request y y hacerla pasar como si estuvieran dentro del mismo dominio.
+	El proxy sera para el modo desarrollo.
+
+13) En el paquete raiz, en scripts agrego:
+"scripts": {
+    "build": "npm run build --workspace=app",
+    "start": "npm run start --workspace=api",
+    "dev:api": "npm run build && npm run dev --workspace=api"
+},
+	NOTA: Se deja start en vez de start:api porque deployado en Heroku, el build se ejecuta justo antes
+	de hacer el despliegie y start para levantar la api, es un estandar.
+13.1) En la carpeta api, crear un fichero con el nombre: Procfile y dentro escribir solamente:
+	web: npm start
+
+IMPORTANTE: En el package.json, en el .env copio el flag al build en scripts. Simplemente agregaria el 
+	flag:
+	"scripts": {
+    		"build": "SKIP_PREFLIGHT_CHECK=true npm run build --workspace=app",**
+
+14) Creo el repositorio en GitHub.
+14.1) Desde la consola de Gitbash y en la carpeta raiz: git init
+14.2) git branch -M main o master
+14.3) git remote add origin https://github.com/Sparx27/notes-app-mono-repo.git
+14.4) Para evitar casos con datos en cache: git rm --cached api y git rm --cached app
+14.5) git add .
+	NOTA: Revisar luego con git status si esta el .env
+14.6) git commit -m "add files"
+14.7) git push -u origin main o master
+
+15) Creo la app en Heroku.
+15.1) Siguiente ubicado en la carpeta raiz: heroku create app-notes-name
+15.3) La api contiene un .env y este no se sube (ni deberia subirse, usando un .gitignore).
+	Para arreglarlo: en la pagina de heroku, en la app, voy a Settings > Config Vars y agrego las keys
+	NOTA: No agregar PORT, heroku se lo da automaticamente.
+
+16) Hago el deploy desde GitHub hacia Heroku.
+16.1) git push heroku master
+
+
+https://sparx-mern-notes-app.herokuapp.com/

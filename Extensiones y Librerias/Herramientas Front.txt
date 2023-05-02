@@ -1,0 +1,25 @@
+ICONOS:
+React Icons, Emojipedia, Font Awesome, icons-icons.com,
+HTML Entities FreeFormater.com, Favicons
+
+COLORES Y FONDOS:
+Coverr.co (background videos), colorhunt.co, uigradients.com,
+getwaves.io, bennettfeely Clippy (CSS border orientation)
+
+FORMULARIOS:
+react-hook-form
+
+LIBRERIAS:
+toast (notificaciones), react-quill (editor rico de texto),
+react-paginate (separar tabla en paginas),
+react-confirm-alert, react-swipeable-list (npm i prop-types),
+dompurify (evita codigo malicioso)
+
+SPINNERS:
+SpinKit, loading.io, https://samherbert.net/svg-loaders/
+
+Google Fonts: 
+https://superdevresources.com/best-free-sans-serif-fonts/
+
+Animaciones CSS:
+animate.style (animate.com)

@@ -1,0 +1,47 @@
+CONCEPTOS IMPORTANTES:
+
+El contexto global es window, de ahi cuelgan todas las APIs.
+No es necesario estar poniendo window.document.
+
+
+Si quisiera acceder a <head>/<body>:
+document.head	document.body
+
+Para acceder al html: document.documentElement
+
+Al tipo: document.doctype
+
+Juego de caracteres: document.charset
+
+document.title
+
+Lista de enlaces: document.Links
+NOTA: No son arreglos, COLECCIONES y no comparten todos los metodos de 
+los arreglos. Por ejemplo no podria aplicarle a document.Links un map.
+HTMLCollection [] es parecido a un arreglo, una especie de arreglo pero
+de elementos html.
+Deberia guardar todos los elementos de HTMLCollection en un array y ahi
+si podria aplicarles un map.
+
+Imagenes: document.images
+
+Formularios: document.forms
+
+Estilos: document.styleSheets
+
+document.scripts
+Devuelve el numero de etiquetas script que encontro en el documento.
+
+
+
+METODOS DE SELECCION:
+
+document.getSelection().toString()
+Devuelve lo seleccionado con el raton. Para darme tiempo de seleccionar:
+setTimeout(() => {
+	console.log(document.getSelection().toString()
+}, 4000);
+
+document.write("...")
+Soporta etiquetas html.
+

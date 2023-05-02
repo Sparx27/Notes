@@ -1,0 +1,61 @@
+Mecanismo mas optimo para hacer peticiones XMLHttpRequest.
+Osea que fetch trabaja con XMLHttpRequest tambien.
+Fetch es un mecanismo que trabaja con promesas.
+
+0) No se debe crear una instancia de new XMLHttpRequest()
+
+1) Creo el objeto fetch:
+
+fetch("Recurso de referencia(Suele ser URL)", objetoOpciones(method, cabecera, etc))
+
+//El method por defecto para fetch es GET 
+//Recordar la utilizacion de document.createDocumentFragment()
+
+2) Creo las promesas .then
+
+fetch("URL")
+	.then(res => {
+		//Devuelve un objeto de tipo Response y lo transformo a un formato JavaScript
+		//**De no usar el ternario, el codigo no accederia al catch**
+		return res.ok ? res.json() : Promise.reject(res)
+
+		//Dependiendo del tipo de Response podria ser tambien:
+		return res.text() Si fuera HTML o XML
+		return res.blob() Para quello que no es texto, por ejemplo imagenes en formato 
+					data uri
+	})
+	.then(json => {
+
+		json.forEach(el => {
+          		$li = document.createElement("li");
+          		$li.innerHTML = `${el.id}, ${el.name}, ${el.username}`;
+          		$fragment.appendChild($li);
+        	})
+
+        	$fetch.appendChild($fragment);
+	})
+
+Propiedades de Response:
+body:
+headers:
+ok: true //Es como el readyState
+status: 200
+statusText:
+url: //La url solicitada
+
+
+3) Creo el .catch:
+
+	.catch(err => {
+		let message = err.statusText || "Error detected";
+		$fetch.innerHTML = `Error ${err.status}: ${message}`;
+	})
+
+catch es un objeto con las mismas propiedades que Response pero con
+ok: false
+status: >400
+
+
+4) Opcional, el .finally
+
+	.finally() //No importa el resultado, este codigo se ejecuta igual

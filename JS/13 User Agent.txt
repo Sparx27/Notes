@@ -1,0 +1,17 @@
+navigator.userAgent
+
+Mozilla/5.0 (X11; Linux x86_64)
+AppleWebKit/537.36 (KHTML, like Gecko)
+Chrome/51.0.2704.63
+Safari/537.36
+
+Most Web browsers use a User-Agent string value as follows:
+Mozilla/[version] ([system and browser information]) [platform] ([platform details]) [extensions].
+
+Mozilla is a byproduct of browser wars.
+
+AppleWebKit/537.36 is the platform used by your browser.
+
+Chrome/51.0.2704.63 is your browser
+
+Safari/537.36 was added for historic reasons, where Safari was treated differently.

@@ -1,0 +1,16 @@
+Hace que los parrafos de texto tengan un ancho de la medida especificada,
+haciendo columnas de textos como en los diarios.
+
+section {
+	column-width: 25rem
+};
+
+
+Toma la primer letra del primer parrafo y la manipula.
+
+.first-paragraph::first-letter {
+  font-size: 6rem;
+  color: orangered;
+  float: left;
+  margin-right: 1rem;
+}

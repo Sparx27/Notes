@@ -1,0 +1,2 @@
+navigator.getUserMedia es una promesa.
+Sin () porque es una native function.

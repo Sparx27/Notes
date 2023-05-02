@@ -1,0 +1,43 @@
+Paradigma mas actual de como se estan utilizando la arquitectura para las aplicaciones web.
+
+API: Aplication Programming Interface, conjunto de rutinas que provee acceso a ciertas
+     funcionalidades de un software en especifico.
+
+API Nativa y API Externa: Nativas son todas aquellas que el motor de JavaScript trae integrado
+     en cada navegador, como acceder al DOM. Externas son aquellas provenientes de URLs, son
+     creadas por terceros.
+
+REST: Termino extraido de una tesis doctoral de Roy Fielding, significa Representational State
+	Transfer o transferencia de estado representacional.
+	Un servicio REST es un conjunto de restricciones con las que se puede crear un estilo de
+	arquitectura de software, como por ejemplo en React.
+	REST se basa en los estandares del protocolo HTTP.
+
+Caracteristicas REST importantes:
+*La relacion cliente-servidor esta debilmente acoplada, implica que esten separados. Al cliente
+ no le interesa saber los detalles de como se implemento del lado del servidor esa respuesta en
+ formato JSON/XML y al servidor, no le interesa como el cliente vaya a utilizar esta informacion
+ para pintarla en los datos.
+*Las API REST son sin estado, cada peticion recibida por el servidor se va a manejar de manera
+ independiente. Esto evita secciones conectadas haciendo peticiones en simultaneo inecesariamente.
+*Debe ser cacheable, debe haber un sistema de almacenamiento en cache para evitar repetitivas
+ conecciones hacia un mismo recurso del servidor. Mejora el rendimiento, aceleran el proceso de
+ carga.
+*De interfaz uniforme, una interfaz generica que permita la administracion de la interaccion
+ entre cliente-servidor de una manera uniforme. Para cada peticion va a existir una URL unica y 
+ con las caracteristicas de como el usuario le envia informacion, se les llama end points.
+*Deberia tener un sistema de capas, del lado del servidor, debe de haber varias capas a la hora
+ de implementarla para estar previstos de que si mas adelante ese desarrollo escala, ese servidor
+ tenga la capacidad de escalabilidad (ejemplo agregar funcionalidades nuevas). Importante
+ tambien la capa de seguridad.
+
+NOTA: CRUD es la abreviacion en bases de datos de: Crear, Leer, Actualizar, Eliminar.
+
+
+El mecanismo de funcionamiento de una API REST Architecture, a grandes rasgos es:
+
+1) No importa si el usuario viene de Android, iPhone, Browser,Web
+2) Mientras la peticion con la consecuente informacion este en formato XML/JSON
+3) Los metodos Http DELETE, PUT, GET, POST, CUSTOM Params son enviados por Http/s
+4) A la base de datos en la tecnologia que sea, PHP, Python, etc.
+5) Y esta la devuelve al usuario la respectiva informacion solicitada. 

@@ -1,0 +1,104 @@
+EXPLICACION CLARA:
+https://www.youtube.com/watch?v=pywyV4pbnQQ
+
+No reemplazan a las promesas. Trabajan en conjunto.
+
+Inicialmente tendria una promesa:
+
+function getData() {
+
+	fetch('https://api')
+	.then(response => response.json())
+	.then(json => {
+		console.table(json);
+	})
+	.catch(err => {
+		console.error(err);
+	});
+
+}
+
+Esta funcion por si sola, no tendria problema alguno a la hora de 
+mostrar los datos solicitados.
+
+PERO, si quisiera integrar esos datos a otras actividades, ejemplo:
+
+
+function showData() {
+	const json = getData();
+
+	console.log(`Nombre de lo solicitado: ${json.nombre}`);
+	console.log(`Nombre del canal solicitado: ${json.canal}`);
+}
+
+
+Aqui habria un problema por temas de scopes:
+
+Para utilizar la informacion de la API, en getData() en vez de hacer
+directamente un console.table(json), codificaria return json.
+
+Luego cuando quisiera hacer un showData(), utilizando los valores
+devueltos en ese return json de getData(), showData devolveria un error.
+Esto por el scope / asincronia en el recibimiento de los datos.
+showData debe esperar a que la informacion de getData llegue para luego
+trabajar con esos datos.
+
+
+
+Para solucionar el problema, se puede utilizar ASYNC FUNCTION:
+
+async function showData() {
+
+	const json = await getData();
+
+	console.log(`Nombre de lo solicitado: ${json.nombre}`);
+	console.log(`Nombre del canal solicitado: ${json.canal}`);
+
+}
+function getData() {
+
+	fetch('https://api')
+	.then(response => response.json())
+	.then(json => {
+		json => json;
+	})
+	.catch(err => {
+		console.error(err);
+	});
+
+}
+
+showData();
+
+
+
+ASYNC FUNCTION CON TRY CATCH:
+
+async function showData() {
+
+	try{
+		const json = await getData();
+
+		console.log(`Nombre de lo solicitado: ${json.nombre}`);
+		console.log(`Nombre del canal solicitado: ${json.canal}`);
+	}
+	
+	catch(err) {
+		console.error(err);
+	}
+
+}
+function getData() {
+
+	fetch('https://api')
+	.then(response => response.json())
+	.then(json => {
+		json => json;
+	})
+	.catch(err => {
+		console.error(err);
+	});
+
+}
+
+showData();

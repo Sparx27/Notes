@@ -1,0 +1,168 @@
+const d = document, w = window, n = navigator, s = localStorage
+
+
+SELECTORES
+d.querySelector(".class/$element")
+d.querySelectorAll("elementos")
+d.getElementById("id")
+
+d.querySelectorAll("[data-algo]")
+d.querySelector(".class a/div/h2/elemento")
+d.querySelector(".class a.class")
+d.querySelector(".class [required]")
+
+const valorDeUnAtributo = $elemento.atributo
+$elemento.dataset.algo
+(data-algo="valor")
+
+
+ESTILOS
+$element.style.transform
+
+element.classList.remove("class")
+element.classList.add("class")
+element.classList.toggle("class")
+
+
+LOCAL STORAGE
+s.setItem("nombre", "valor")
+s.getItem("nombre") === "valor"
+
+
+CREADORES
+const $div = d.createElement("div")
+
+$elemento.insertAdjacentElement("afterend/afterbegin", $elemento)
+
+$elemento.appendChild($div)
+$elemento.removeChild($div)
+
+$element.innerHTML = `<h2>${codigo js}</h2>` / null
+$element.textContent = "texto"
+
+let now = mew Date().getTime()
+
+
+INTERVALOS
+let intervalo = setInterval(() => {}, tiempo)
+clearInterval(intervalo)
+
+
+EVENTOS
+DOCUMENT
+d.addEventListener("click" e => {
+	e.preventDefault();
+
+	if(e.target.matches($elemento))
+	if(e.target.matches(`${$elemento} *`)
+	if(e.target === $elemento)
+}
+click, DOMContentLoaded, keyup, keydown, submit
+
+WINDOW
+w.addEventListener("online" e => {})
+offline, change, scroll
+
+w.addEventListener("scroll", e => {
+    let scrollCoord = w.pageYOffset || d.documentElement.scrollTop;
+
+    if (scrollCoord > 600) {
+      algo
+    } else {
+      otra cosa
+    }
+ });
+
+*w.scrollTo({top: 0});
+
+let breakpoint = w.matchMedia(mq)
+const listener = (e) => {
+	if(e.matches) {
+		algo
+	} else {
+		otra cosa
+	}
+breakpoint.addEventListener("change", listener)
+listener(breakpoint)
+
+
+Abrir ventana: let otherWindow = w.open(url, otherWindow, `innerWidth=x, innerHeight=y`)
+otherWindow.close()
+
+Desactivar boton: e.target.disabled = true/false
+
+e.key/keycode para shortcuts
+
+if(e.target.matches(on)) $alarm.play()
+
+$form.reset()
+
+
+EXTRAS
+GEO
+n.geolocation.getCurrentPosition(success, error, options)
+*success = position => {let coords = position.coords}
+position.coords.latitude/longitude/accuracy
+*error = err => {$id.innerHTML = `<mark>Error ${err.code}: ${err.message}</mark>`
+<a href="https://www.google.com/maps/@${coords.latitude},${coords.longitude},18z">
+*options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0 //no toma referencias anteriores de localizaciones
+    }
+
+INTERSECTION OBSERVER
+const $elementos = d.querySelectorAll("elementos")
+
+const cb = (entries) => {
+	entries.forEach(entry => {
+		if(entry.isIntersecting) algo
+		else otra cosa
+	}
+}
+
+const options = {
+	root: x,
+  	rootMargin: 150px/-150px,
+ 	threshold: x%
+}					  
+
+const observer = new IntersectionObserver(cb, options);
+  observer.observe($elementos);
+
+BUSCADOR
+export default function searchFilter(input, items) {
+
+  d.addEventListener("keyup", e => {
+    if(e.target.matches(input)) {
+      
+      if(e.key === "Escape") e.target.value = "";
+
+      d.querySelectorAll(items).forEach(el => el.textContent.toLowerCase().includes(e.target.value.toLowerCase())
+      ? el.classList.remove("filter")
+      : el.classList.add("filter")
+      )
+    }
+  })
+}
+
+DETECTOR DE DISPOSITIVO
+ua = n.userAgent
+
+DETECTOR DE CAMARA WEB
+export default function webcam(id, play, close) {
+  const $video = d.getElementById(id);
+
+  d.addEventListener("click", e =>{
+    if(e.target.matches(play)) {
+      if(n.mediaDevices.getUserMedia) {
+        n.mediaDevices.getUserMedia({video: true, audio: true})
+        .then(stream => {
+          $video.srcObject = stream;
+          $video.play();
+        })
+        .catch(err => $video.insertAdjacentHTML("afterend", `<p>Error: ${err}</p>`))
+      }
+    }
+  });
+}

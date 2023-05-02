@@ -1,0 +1,309 @@
+Cambia a un framework en la V6.4
+
+npm i -E react-router-dom
+
+
+/********** CONFIGURACION EN MAIN.JSX **********/
+
+import { createBrowserRouter, RouterProvider} from 'react-router-dom'
+
+
+/***** FORMA TRADICIONAL PARA CADA PATH *****/
+const router = createBrowserRouter([	//Es un arreglo de Objetos
+	{
+	 path: '/',		//URL
+	 element: <Component />
+	},
+	{
+	 path: '/nosotros'
+	 element: <ComponenteNosotros />
+	}
+])
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />	//Elimino el App y reemplazo
+  </React.StrictMode>,
+)
+
+
+
+
+/***** FORMA PARA CREAR UN LAYOUT FIJO *****/
+
+Creo carpeta components > Creo archivo Layout.jsx
+
+import { Outlet } from 'react-router-dom'	//Outlet funcionara como un contenedor dinamico, todo el Layout se ira manteniendo inalterado salvo lo que se especifique en el Outlet
+
+const Layout = () => {
+  return (
+	<div>
+		<h1>CRM React</h1>
+
+		<Outlet />
+	</div>
+  )
+}
+
+export default Layout
+
+
+//LUEGO EN LA CONFIGURACION DE router
+
+const router = createBrowserRouter([	//Es un arreglo de Objetos
+	{
+	 path: '/',
+	 element: <Layout />,
+	 children: [	//Para configurar el Outlet
+
+		{
+		 index: true,	//Para especificar que va a aparecer en ese path '/', agregando o no, algo al Outlet
+		 element: <h1>Home Page</h1>
+		},
+
+		{
+		 path: '/nosotros',
+		 element: <ComponentNosotros />	//Lo que se pase a este element, sera en lo que se inyecte en el Outlet dentro de Layout en este path
+		}
+
+	 ]
+	}
+])
+
+
+//LUEGO CREO UNA CARPETA pages
+	En esta carpeta iria agregando los componentes para el Outlet segun el path
+
+Creo carpeta pages > Creo elemento .jsx (un componente)
+
+
+//NOTA: Recordar la necesidad de importar los componentes en el main.jsx
+
+
+
+
+/********** CONFIGURACION PARA EL FORMATO SPA **********/
+
+En el Layout.jsx:
+
+import { Link } from 'react-router-dom'	//Link sustituye al elemento html <a href='/nosotros'(path)>link</a> optimizando lo que debe y no debe recargar
+
+<a href='/nosotros'>Nosotros</a> 
+
+==pasa a ser==> <Link to'/nosotros'>Nosotros</Link>	//Recodard que href pasa a ser to
+
+
+
+
+
+
+
+/********** loader **********/
+
+Su funcion es muy similar al de useEffect: una funcion que se ejecuta cuando el componente cargue. 
+Es ideal para cargar un state o consultar una API y obtener un resultado para mostrar en un componente.
+
+
+//////////Ejemplo en un componente llamado Index.jsx
+
+import { useLoaderData } from 'react-router-dom'
+
+export function loader() {
+  const clients = ['client1', 'client2']
+
+  return clients
+}
+
+const Index = () => {
+  const loadClients = useLoaderData()	//Con esto accedo a la informacion del loader
+
+  return (
+    <div>Index</div>
+  )
+}
+
+
+//////////En el main.jsx (mas precisamente en el router)
+
+import Index, { loader as clientsLoader } from './pages/Index'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <Index />,
+        loader: clientsLoader	//Me traigo el loader, lo nombro as algoLoader para evitar conflicto de nombre con otros loaders en el futuro y lo agrego aqui
+      },
+  }
+])
+
+
+
+
+
+
+/********** action **********/
+
+En esta ultima version se agrega manejo de peticiones HTTP (loader seria en GET)
+El action se utiliza para procesar la entrada de datos de un form
+
+
+//////////////Manejo del POST (para formularios)
+NOTA: Seria reemplazar el const handleSubmit = (e) => {e.preventDefault() ...}
+
+
+import { Form, useActionData } from 'react-router-dom'
+
+
+export ASYNC function action({request}) {		//Siempre lleva un req, dentro contiene el method, body, cors, etc. y en su prototype se accede al formData
+
+	const formData = AWAIT request.formData()
+
+	/////NOTA: Si yo quisiera hacer un console.log(formData) lo que veria en su interior, en su prototype, son algunos metodos como get, entries, set, append, etc.
+
+	/////FORMAS DE LEER LOS DATOS DEL FORM: 
+		*Con console.log(formData.get('name' (valor name del input) ))
+
+		*console.log([...formData]) este muestra todos los datos
+
+		*const datos = Object.fromEntries(formData)	
+			//Este es el mas recomendable para crear un objeto que me permita crear validaciones (formData en si, no es iterable)
+		 console.log(datos)
+
+	
+	/////TRABAJAR CON VALIDACIONES
+	const errores = []
+	if(Object.values(datos).includes('') {
+		errores.push('Todos los campos son obligatorios')
+	}
+
+	//Retornar error si lo hay
+	if(Object.keys(errores).length) {
+		return errores
+	}
+}
+
+
+const Componente = () => {	...
+
+const errores = useActionData()	//La manera en que funciona es que lo que retorne la funcion action se recupera mediante la llamada de este Hook
+
+return (
+
+	{errores?.length && errores.map( (error, i) => 
+		<ComponenteError key={i}> {error} (children) </ComponenteError>
+
+	<Form
+		method='post'	//El method POST va a buscar el action que se definio previamente
+	>
+		<Formulario />	//Componente creado para el form anteriormente
+
+		<input
+			type='submit'	//Al presionarse el boton ira a llamar la funcion de action
+			value='register'
+		/>
+	</Form>
+)
+
+}
+
+NOTA: Mismo proceso que con loader
+
+////////En el main.jsx, en router:
+
+import { action as newClientAction } from './pages/NewClient'
+
+const router = createBrowserRouter([
+  {
+    path: '/clients/new',
+    element: <NewClient />,
+    children: [
+      {
+        index: true,
+        element: <Index />,
+        action: clientsLoader	//as newClientAction para evitar conflictos de nombre
+      },
+  }
+])
+
+
+
+
+
+/********** HOOKS DE react-router-dom **********/
+
+//////////////useLocation:
+
+import { useLocation } from 'react-router-dom'
+
+Si hago un => const location = useLocation() y console.log(location)
+
+Veria que es un objeto que contiene:
+hash		//Es para cuando en la URL hay un /#algo
+key		//Se genera de forma unica en cada pagina, se va generando cada que el usuario navega en diferentes secciones
+pathname	
+search	//Cuando tengo un parametro de busqueda, /?algo=20
+state
+
+
+Ejemplo de uso:
+
+Para marcar en el nav que seccion se encuentra un usuario
+
+<Link className={`${location.pathname === '/' ? 'text-blue-300' : 'text-white'}`}>Home</Link>
+
+
+
+
+
+//////////////useNavigate:
+
+En los Links, yo le defini una ruta y esos enlaces estan fijos, los Link son <a>.
+En caso de que un usuario presione un boton y quiera navegar hacia otra pagina se utiliza useNavigate 
+(no en un enlace, sino en un boton o despues de haber pasado alguna validacion)
+
+import { useNavigate } from 'react-router-dom
+
+const Componente = () => {
+
+	const navigate = useNavigate()	//Con esto accedo a las propiedades para redireccionar al usuario
+
+	return (
+		<div>
+			...
+			<button onClick={() => navigate('/')}> Volver </button>
+		</div>
+	)
+}
+
+NOTA: con onClick={() => navigate(-1)} Me retorna a la pagina anterior
+
+
+
+
+
+//////////////useActionData:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

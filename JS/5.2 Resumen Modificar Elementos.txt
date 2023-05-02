@@ -1,0 +1,60 @@
+METODOS ANTIGUOS
+
+$cards.replaceChild($newCard, $cards.children[2]);
+
+$cards.insertBefore($newCards, $cards.firstElementChild);
+
+$cards.removeChild($cards.lastElementChild);
+
+$cloneCards = $cards.cloneNode(false/true);
+
+
+METODOS NUEVOS
+
+.inserAdjacent...
+	.insertAdjacentElement(position, el)
+	.insertAdjacentHTML(position, html)
+	.insertAdjacentText(position, text)
+
+Posiciones:
+	beforebegin(hermano anterior)
+	afterbegin(primer hijo)
+
+	afterend(hermano siguiente)
+	beforeend(ultimo hijo)
+
+Agregar como primer hijo:
+$cards.prepend($newCard);
+
+Agregar como hermano anterior:
+$cards.before($newCard);
+
+Agregar como ultimo hijo:
+$cards.append($newCard);
+
+Agregar como hermano posterior:
+$cards.after($newCard);
+
+
+$cards.insertAdjacentElement('beforebegin', $newCard);
+
+$cards.insertAdjacentElement('afterend', $newCard);
+
+
+$newCard.insertAdjacentHTML('beforeend', $contentCard)
+
+
+$newCard.querySelector('figcaption').inserAdjacentText('afterbegin','Any')
+
+
+
+
+
+
+
+
+
+
+
+
+

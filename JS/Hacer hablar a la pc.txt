@@ -1,0 +1,13 @@
+https://dev.to/asaoluelijah/text-to-speech-in-3-lines-of-javascript-b8h
+
+let msg = new SpeechSynthesisUtterance();
+msg.text = "texto a decir";
+
+window.speechSynthesis.speak(msg);
+
+
+VOCES
+
+var voices = window.speechSynthesis.getVoices();
+
+msg.voice = voices[10]; 

@@ -1,0 +1,50 @@
+background: linear-gradient(var(--building-color1), var(--window-color1));
+
+Otro tipo:
+repeating-linear-gradient
+
+NOTA: Las variables se declaran en :root {}
+
+Propiedad I: El degradado puede tomar mas de dos colores.
+
+Propiedad II: El degradado puede tomar una direccion:
+gradient-type(
+  direction,
+  color1,
+  color2
+);
+
+Propiedad III: Se pueden agregar varios degradados en un mismo elemento.
+
+Variables: cada color puede tener un % para elegir de donde a donde va.
+Ej: background: linear-gradient(
+      orange,
+      var(--building-color1) 80%,
+      var(--window-color1) 
+    )							Del color 1 al 2 un 80%, el otro 20% hacia el 3.
+
+linear-gradient(
+  var(--first-color) 0%,
+  var(--first-color) 40%,
+  var(--second-color) 40%,
+  var(--second-color) 80%			De donde a donde va cada color.
+);
+
+
+
+Ejemplo completo:
+
+background: repeating-linear-gradient(
+      var(--building-color2),
+      var(--building-color2) 5%,
+      transparent 5%,
+      transparent 10%
+    ),
+    repeating-linear-gradient(
+      90 deg,
+      var(--building-color2) 0%,
+      var(--building-color2) 12%,
+      var (--window-color2) 12%,
+      var (--window-color2) 44%
+    );
+

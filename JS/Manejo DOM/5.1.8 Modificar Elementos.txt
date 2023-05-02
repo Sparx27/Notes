@@ -1,0 +1,94 @@
+METODOS ANTIGUOS
+
+const $cards = document.querySelector('.cards'),
+$newCard = document.createElement('figure');
+
+newCard.innerHTML = `
+	<img src='https://...>
+	<figcaption>Any</figcaption>
+`;
+
+$newCard.classList.add('card');
+
+
+METODOS:
+$cards.replaceChild($newCard, $cards.children[2]);
+
+$cards.insertBefore($newCards, $cards.firstElementChild);
+
+$cards.removeChild($cards.lastElementChild);
+
+
+$cloneCards = $cards.cloneNode(false/true);
+document.body.appendChild($cloneCards);
+
+
+
+
+
+METODOS NUEVOS
+
+.inserAdjacent...
+	.insertAdjacentElement(position, el)
+	.insertAdjacentHTML(position, html)
+	.insertAdjacentText(position, text)
+
+Posiciones:
+	beforebegin(hermano anterior)
+	afterend(hermano siguiente)
+
+	afterbegin(primer hijo)
+	beforeend(ultimo hijo)
+
+Agregar como primer hijo:
+$cards.prepend($newCard);
+
+Agregar como hermano anterior:
+$cards.before($newCard);
+
+Agregar como ultimo hijo:
+$cards.append($newCard);
+
+Agregar como hermano posterior:
+$cards.after($newCard);
+
+
+
+
+Ejemplos:
+
+const $cards = document.querySelector('.cards'),
+$newCard = document.createElement('figure');
+
+
+*****Esto cambia*****
+
+let $contentCard = `
+	<img src='https://...>
+	<figcaption></figcaption>
+`;
+
+*****		    *****
+
+$newCard.classList.add('card');
+
+
+USANDO METODOS NUEVOS:
+
+$cards.insertAdjacentElement('beforebegin', $newCard);
+//Se inserta antes del nodo de referencia.
+$cards.insertAdjacentElement('afterend', $newCard);
+//Se inserta despues del nodo de referencia.
+
+Agrego la imagen y el figcaption:
+$newCard.insertAdjacentHTML('beforeend', $contentCard)
+//En este caso podria ser after o before, haria lo mismo porque el
+elemento se encuentra vacio.
+
+Agrego el texto al figcaption:
+$newCard.querySelector('figcaption').inserAdjacentText('afterbegin','Any')
+
+Agrego la carta nueva el ggrupo
+$cards.insertAdjacentElement('afterbegin', $newCard);
+
+

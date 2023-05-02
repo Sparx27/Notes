@@ -1,0 +1,38 @@
+0) ***RECORDAR EL cors EN EL BACKEND***
+
+1) Subir el backend a un repositorio GitHub
+	NOTA: .gitignore para node_modules
+
+2) En VSC, en la carpeta del backend, crear un archivo: Procfile
+	Se le especifica que tipo de recursos quiero deployar.
+	web: npm start (comando que debe ejecutar para inicializar)
+
+3) Crear la app en Heroku CLI:
+	1)Registrarme
+	2)Descargar e instalar la aplicacion
+
+4) Cambio en el codigo del backend:
+	const PORT = process.env.PORT || 3001 //Heroku lo necesita para usar el puerto que quiera
+							  //El 3001 para localHost
+
+5) Creo la aplicacion de Heroku en la carpeta del backend ***notes-app33***
+	1) En la Terminal de windows: heroku login (me loggeo en su pagina)
+	2) Voy a la carpeta del backend EN LA TERMINAL, NOT EN GIT BASH
+	3) Escribo: heroku create
+		NOTA: con el comando: git remote show origin puedo ver las URLs de Fetch, Push, Branch
+		NOTA: heroku ha agregado una nueva ruta para el push (git remote show heroku)
+
+  			Fetch URL: https://git.heroku.com/shrouded-hamlet-57568.git
+  			Push  URL: https://git.heroku.com/shrouded-hamlet-57568.git
+			***En esta url hara el deploy***
+
+6) Agrego mis nuevos cambios al repositorio de GitHub (git add . , git commit...)
+
+7) Ahora hago un comando: git push heroku master (el deploy)
+	Se traduce como: hazme el push de la rama master al origen heroku
+
+	NOTA: a lo ultimo diria algo como:
+	Released v3
+	https://shrouded-hamlet-57568.herokuapp.com/ deployed to Heroku (la URL del back)
+
+8) En VSC, en la app, cambio la url para hacer los GET, POST, etc.

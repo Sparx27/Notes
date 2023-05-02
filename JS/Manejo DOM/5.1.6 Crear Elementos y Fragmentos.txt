@@ -1,0 +1,121 @@
+CREACION DE ELEMENTOS
+
+Se va a crear una etiqueta figure de manera dinamica:
+
+const $figure = document.createElement('figure');
+const $img = document.createElement('img');
+const $figcaption = document.createElement('figcaption');
+
+const $figcaptionText = document.createTextNode('Animals');
+
+Se elecciona al elemento padre:
+const $cards = document.querySelection('.cards');
+
+
+AGREGANDO EL ELEMENTO:
+
+Con esos bloques deberia primero configurar a este nuevo hijo de cards:
+$figcaption.appendChild($figcaptionText);
+$figure.appendChild($img);
+$figure.appendChild($figcaption);
+
+Luego creo este nuevo elemento en cards:
+
+$cards.appendChild($figure);
+
+
+AGREGANDO ATRIBUTOS:
+Nota Importante: estos atributos deberian declararse antes de empezar con
+los appendChild()
+
+$img.setAttribute('src', 'https://placeimg.com/200/200/animals');
+$img.setAttribute('alt', 'Animals');
+
+Y luego para terminar de crear al nodo:
+$figure.classList.add('card');
+
+
+
+
+SEGUNDA FORMA "A LO REACT"
+
+NOTA IMPORTANTE: De esta forma no se esta creando un nodo como tal en el
+html.
+
+const $figure2 = document.createElement('figure');
+
+$figure2.innerHTML = `
+	<img src='https://placeimg.com/200/200/people' alt='People' />
+	<figcaption>People</figcaption>
+`;
+
+$figure2.classList.add('card');
+
+$cards.appendChild($figure2);
+
+
+
+CREAR VARIOS ELEMENTOS A LA MISMA VEZ:
+
+const estaciones = ['Primavera', 'Verano', 'Otonio', 'Invierno'],
+$ul = document.createElement('ul');
+
+document.write('<h3>Estaciones del anio');
+document.body.appendChild($ul);
+
+Luego podria hacer:
+estaciones.forEach(el => {
+	const $li = document.createElement('li');
+	$li.textContent = el;
+	$ul.appendChild($li);
+});
+
+
+AHORA "A LO REACT"
+
+const continentes = ["Africa", "America", "Asia", "Europa", "Oceania"],
+$ul2 = document.createElement('ul');
+
+document.write('<h3>Continentes del Mundo</h3>');
+document.body.appendChild($ul2);
+
+NOTA: Primero debo inicializar al elemento en cuestion con su html vacio.
+Es decir:
+$ul.innerHTML = "";
+
+Luego:
+continentes.forEach(el => ($ul2.innerHTML += `<li>el</li>`));
+
+
+
+
+CREACION DE FRAGMENTOS
+
+Los fragmentos son otro tipo de nodo.
+
+El tema con estar creando elementos, cuando estos son muchos, por ejemplo
+en el forEach, por cada iteracion se le "esta dando al DOM", por lo que se
+consumen muchos recursos de la pc para hacerlo.
+
+Con Fragmentos esto sucede solamente una vez. Es mas economico.
+
+const meses = ["Enero", "Febrero", "Marzo", ...],
+$ul3 = document.createElement('ul'),
+
+$fragment = document.createDocumentFragment();
+
+meses.forEach(el => {
+	const $li = document.createElement('li');
+	$li.textContent = el;
+	$fragment.appendChild($li);
+});
+
+$ul3.appendChild($fragment);
+
+document.body.appendCHild($ul3);
+
+Esta es la forma correcta, optima, porque al DOM solamente se le machaca
+una vez con el forEach.
+
+
+

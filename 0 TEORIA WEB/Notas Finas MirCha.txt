@@ -1,0 +1,36 @@
+MENU COLOCADO CORRECTAMENTE PARA CELULAR:
+Por tema de mejorar la experiencia del usuario, los menus responsivos se ponen en la parte de
+abajo. En los celulares es mucho mas comodo.
+
+
+AHORRO DE DATOS EN CELULAR:
+Al insertar videos, mapas y otros archivos externos, lo ideal es utilizar la funcion de
+responsive media:
+
+const d = document, w = window;
+
+export default function responsiveMedia(id, mq, mobileContent, desktopContent) {
+  let breakpoint = w.matchMedia(mq);
+
+  const responsive = e => {
+    if (e.matches) {
+      d.getElementById(id).innerHTML = desktopContent;
+    } else {
+      d.getElementById(id).innerHTML = mobileContent;
+    }
+  }
+  breakpoint.addListener(responsive)
+  responsive(breakpoint);
+}
+
+Si descargo la pagina cuando el video y el mapa estan en la pagina, y luego hago lo mismo
+pero estando solamente los enlaces, sucederia que el peso de los archivos seria mucho menor.
+Esto se hace para que el usuario en su celular consuma menos datos.
+
+
+TRINIDAD:
+Objecto window: Es el contexto global que controla la ventana del navegador.
+Object document: El arbol de la estructura HTML que permite acceder a los nodos del documento.
+Object navigator: Da informacion de las caracteristicas del dispositivo o del usuario que accede
+			a la web (conexion, geolocalizacion, camara web y cualquier acceso a algun
+			dispositivo).

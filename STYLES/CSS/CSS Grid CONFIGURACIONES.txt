@@ -1,0 +1,62 @@
+CONTAINER
+grid-template-columns	minmax(100px, 300px)
+grid-template-rows	auto para cuando hay mucho contenido y el grid se debe ir ajustando
+
+valores repeat(autofill y autofit)
+grid-template-columns(AUTOFILL, minmax(100px, 1fr) reyena la fila con todas las columnas que 
+pueda poner cuando llega al minimo
+
+AUTOFIT hace lo mismo con muchos elementos, con pocos elementos rellena todo el contenedor con
+las columnas disponibles
+
+grid-auto-columns: 1fr;
+
+grid-gap
+
+VALORES POSIBLES:
+200px repeat(2, 1fr) 20% 1fr
+
+PARA POSICIONAR ELEMENTOS
+justify-items
+align-items
+(Ambos al mismo tiempo) place-items: valor align, valor justify
+
+VALORES POSIBLES:
+strech, auto, start, end, center
+
+
+ALINEAR TRACKS
+justify-content	(center, end, start, space between, space evenly, space around,)
+align-content 
+NOTA: usando justify-content y align-content
+
+
+FLOW
+grid-auto-columns
+grid-auto-rows
+grid-auto-flow	(column o row)	
+
+
+
+
+HIJOS
+grid-column-start: 1
+grid-column-end: 2	(-1 para que abarque toda la primera fila)
+
+grid-row-start: x
+grid-row-end: y
+
+grid-row: x / y;
+grid-column: 1 / 2;
+
+grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end;
+
+VALORES POSIBLES:
+
+1,2,-1,etc. 1 / 3	<=> 1 / span 2	o	span 3
+
+PARA POSICIONAR ELEMENTOS DE HIJOS POR SEPARADO
+justify-self (strech, start, end, center, etc)
+align-self
+
+

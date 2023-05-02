@@ -1,0 +1,81 @@
+https://github.com/axios/axios
+
+Con node: $ npm install axios
+
+CDN: <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+Axios puede recibir un objeto con las caracteristicas:
+//Similar al objeto options de fetch
+axios({
+  method: 'post',
+  url: '/user/12345',
+  data: {
+    firstName: 'Fred',
+    lastName: 'Flintstone'
+  }
+});
+
+axios({
+  method: 'get',
+  url: 'https://bit.ly/2mTM3nY',
+  responseType: 'stream'
+})
+  .then(function (response) {
+    response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
+  });
+
+
+UTILIZANDO AXIOS:
+
+const $axios = document.getElementById("axios"),
+  $fragment = document.createDocumentFragment();
+
+1) Llamo a la function axios:
+axios
+	.get("URL")
+
+2) Utilizo el metodo .then:
+
+	//Axios evita el primer .then de fetch, el de res.ok ? y el de parsear la respuesta
+	.then(res => {
+	
+		//Guardo la respuesta de la API que esta en data en una variable
+		let json = res.data;
+		
+		json.forEach(el => {
+        		let $element = document.createElement("element");
+        		$element.innerHTML = `${el,propiedad1}, ${el.propiedadX}`;
+        		$fragment.appendChild($element);
+      	});
+      
+      	$axios.appendChild($fragment); 
+		
+	}
+
+Ahora el objeto Response es diferente, es otro que se crea con la libreria 
+Algunas propiedades:
+config: Contiene todo lo enviado con el metodo .get (headers, url)
+data: Es donde se guarda la respuesta de la API parseada (res.json()), osea un Array de objetos
+headers:
+request: Utiliza XMLHttpRequest, pero como si fuera con fetch, promesas.
+status:
+statusText:
+
+
+3) Manejo el Error:
+
+	.catch(err => {
+		
+		//Axios crea un objeto personalizado para el error, por lo que tiene propiedades
+		  Para acceder a donde quiero, es con err.response
+		  //err.response devuelve un objeto con las mismas propiedades que res, pero con
+		    diferentes valores
+
+		let message = err.response.statusText||"Error detected";
+       	 $fetchAsync.innerHTML = `${err.response.status}: ${message}`;
+	}
+
+4) Opcional, .finally
+
+	.finally(() => {});

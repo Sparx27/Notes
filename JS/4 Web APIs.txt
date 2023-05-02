@@ -1,0 +1,51 @@
+DOM es una API (Application Porgramming Interface)
+
+DOM es como los navegadores representan el codigo html para trabajarlo
+con JavaScript.
+
+Es una interfaz estandarizada.
+
+Cada etiqueta para JS es un elemento que representa un nodo del arbol
+HTML.
+
+Otras APIs:
+CSSOM (ej. AnimationEvent, MediaQueryList)
+API del Browser (no esta etandarizado completamente)
+Eventos
+Forms
+AJAX - fetch
+History
+Web storage
+
+
+
+Objeto window
+
+Es donde estan un monton de componentes , como navigator.
+
+navigator es un objeto que controla caracteristicas (podria saber el
+idioma del html, el sistema operativo, caracteristicas del navegador).
+
+location, lo que controla todas las partes que forma la url, por ejemplo
+host, port, protocol, pathname (luego del dominio), etc. Seria la API
+que controla todas las partes relacionadas con la url.
+
+localStorage que es el almacenamiento local.
+
+document es el arbol del DOM.
+
+
+A la hora de trabajar con estos componentes, como todos cuelgan del
+objeto global window, no se necesita especificarlo (no seria necesario
+codificar window.location).
+
+
+Web API son todas esas APIs trabajando en conjunto.
+
+
+Colorario (es una API tambien): 
+let texto = "Hola, esto me lo ensenio jonathan Mircha";
+const hablar = (tex) => speechSynthesis
+				  .speak(new SpeechSynthesisUtterance(tex));
+
+hablar(texto);

@@ -1,0 +1,31 @@
+The loading attribute on an img element can be set to lazy to tell the browser not to fetch the 
+image resource until it is needed (as in, when the user scrolls the image into view). As an 
+additional benefit, lazy loaded elements will not load until the non-lazy elements are 
+loaded - this means users with slow internet connections can view the content of your page 
+without having to wait for the images to load.
+
+En CSS:
+img {
+  width: 100%;
+  object-fit: cover;
+}
+
+Hace que la imagen que autoajuste a su contenedor, pero sin perder su relacion.
+
+
+QUITAR SU FONDO BLANCO
+#header-img {
+    filter: brightness(1.1);
+    mix-blend-mode: multiply;
+}
+
+
+PIE DE IMAGEN
+<figure>
+  <img src="images/dinosaur.jpg"
+       alt="La cabeza y el torso de un esqueleto de dinosaurio;
+           tiene una cabeza grande con dientes largos y afilados"
+
+  <figcaption>Exposición de un T-Rex en el museo de la Universidad de Manchester.</figcaption>
+</figure>
+

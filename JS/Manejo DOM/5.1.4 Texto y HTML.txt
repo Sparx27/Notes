@@ -1,0 +1,50 @@
+const whatIsDOM = document.getElementById('que-es')
+
+let text = `<p>Escribo un texto tan corto o largo como quiera, pudiendo
+		inclusive agregar <mark>, <b>, etc.</p>
+
+
+
+RENDERIZAR TEXTO:
+
+Los <p>, <mark>, etc. apareceran escritos de forma literal, no se los 
+renderizara como etiquetas html, sino como texto literal.
+
+
+.innerText
+NO ES ESTANDAR, IGUAL SIRVE Y USABA EN INTERNET EXPLORER:
+
+$whatIsDOM.innerText = text;
+
+La particularidad de innerText es que en la pagina, al renderizarse el 
+texto apareceran literalmente las tabulaciones, "enters", etc.
+
+
+.textContent
+ESTANDAR
+
+$whatIsDOM.textContent = text;
+
+Aqui las tabulaciones y "enters" no apareceran.
+
+
+
+RENDERIZAR HTML
+
+Los <p>, <mark>, etc. se tomaran como lo que representan en HTML, como
+etiquetas.
+
+
+.innerHTML
+
+$whatIsDOM.innerHTML = text;
+
+Agrega codigo html DENTRO de ese elemento.
+
+
+
+.outerHTML
+
+Mientras que inner HTML agrega cosas, outerHTML reemplaza lo que exista en
+ese elemento por lo que se le especifique.
+

@@ -1,0 +1,19 @@
+Para acceder desde la consola:
+Application > Local Storage
+
+Desde Console:
+Escribiendo localStorage
+
+En JS para hacer preguntas al localStorage:
+d.addEventListener("DOMContentLoaded", e => {})
+
+NOTA: No se puede tener un mismo evento dos veces. La funcion en el js del dom
+deberia quedar fuera de la principal.
+
+
+Para obtener una variable de su tipo se hace con 
+localStorage.getitem("value")
+
+Para agregarla es con 
+localStorage.setItem("key")
+

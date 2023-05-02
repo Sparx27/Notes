@@ -1,0 +1,80 @@
+/*********** USO CON COMPONENTES ***********/
+import {
+  LeadingActions,
+  SwipeableList,
+  SwipeableListItem,
+  SwipeAction,
+  TrailingActions  
+} from 'react-swipeable-list'
+import 'react-swipeable-list/dist/styles.css'
+
+const Expense = ({expense}) => {
+
+const leadingActions = () => (
+    <LeadingActions>
+      <SwipeAction onClick={() => {return}}>	//
+        Edit
+      </SwipeAction>
+    </LeadingActions>
+  )
+
+  const trailingActions = () => (
+    <TrailingActions>
+      <SwipeAction onClick={() => {return}}>	// AMBOS onClick SERAN SUS RESPECTIVOS EFECTOS DE ARRASTRAR EL OBJETO HACIA LA IZQUIERDA O DERECHA
+        Delete
+      </SwipeAction>
+    </TrailingActions>
+  )
+
+  return (
+    <SwipeableList>
+      <SwipeableListItem
+        leadingActions={leadingActions()}		// ENVUELVO EL ITEM EN SwpList y SwpListItem
+        trailingActions={trailingActions()}	// AGREGO EN SwpListItem el leading y trailing (efectos de mover hacia izquierda o derecha el item)
+      >
+        <div className="gasto sombra">
+          <div className='contenido-gasto'>
+            <img 
+              src={iconDictionary[category]}
+              alt={String(iconDictionary[category])}
+            />
+            <div className='descripcion-gasto'>
+              <p className='categoria'>{category}</p>
+              <p className='nombre-gasto'>{name}</p>
+              <p className='fecha-gasto'>
+                Added on: {''}
+                <span>{generateDate(date)}</span>
+              </p>
+            </div>
+          </div>
+
+          <p className="cantidad-gasto">${amount}</p>
+        </div>
+      </SwipeableListItem>
+    </SwipeableList>
+  )
+}
+
+
+/*********** PARA EDITAR EN CSS ***********/
+
+.swipe-action__leading {
+	background-color: var(--azul);
+	color: var(--blanco);
+	margin-bottom: 2rem;
+}
+
+.swipe-action__trailing {
+	background-color: #db2777;
+	color: var(--blanco);
+	margin-bottom: 2rem;
+}
+
+.swipeable-list .swipe-action {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: right;
+	font-size: 2.4rem;
+}
+

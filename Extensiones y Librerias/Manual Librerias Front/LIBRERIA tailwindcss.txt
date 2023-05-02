@@ -1,0 +1,37 @@
+npm i -D tailwindcss postcss autoprefixer
+
+CONFIGURACION:
+npx tailwindcss init -p
+
+
+/*********** EN TAILWIND.CONFIG.JS ***********/
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ['./index.html', './src/**/*.jsx'],
+  theme: {
+    extend: {
+      height: {
+        640: '640px'	// MEDIDAS FIJAS
+      }
+    }
+  },
+  plugins: []
+}
+
+
+/*********** EN INDEX.CSS ***********/
+
+Simplemente agrego:
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/*********** EXTENSIONES PARA VSC ***********/
+
+Tailwind CSS IntelliSense
+CSS Peek
+
+
+Documentacion: https://tailwindcss.com/docs/installation

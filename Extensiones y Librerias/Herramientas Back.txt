@@ -1,0 +1,6 @@
+En GitHub:
+node nodemon
+json-server
+
+Lista MIME (tipos de headers)
+Http Cats (http status codes)

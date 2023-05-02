@@ -1,0 +1,59 @@
+git --version
+git config --global user.name "name"
+git config --global user.email "email"
+git config user.name (veo nombre usuario)
+
+clear
+
+mkdir nombreCarpeta
+rm nombreArchivo.extension
+cd Desktop/carpeta
+cd ./carpeta
+ls (ver contenido carpeta) o ls -a
+
+git status
+git init
+git add . (agrego al staging area)
+git commit -m "Message" (snapshot of state of the project)
+Expres Commit:
+git commit -am "Message" (Hace el add y commit)
+
+code . (abro la carpeta con VSCode)
+NOTA: Todos estos comandos se pueden usar en VSCode
+
+Al realizar cambios a un archivo, este va al Working Area.
+Tomar snapshot de esos cambios: add y commit
+
+
+git log (Ver todos los commits)
+NOTA: Salir del log apretando Q
+
+git log --oneline (commits resumidos)
+
+git show (muestra los cambios)
+NOTA: Salir del show con Q
+
+
+
+IR A UN SNAPSHOT ANTERIOR:
+git log --online > copio el numero ID del commit
+	> git checkout commitID
+
+
+
+GIT ALIAS: command shortcut
+EJ: git config --global alias.l "log --oneline"
+
+Crea un shortcut de log --oneline a l
+En vez de git log --oneline seria: git l
+
+
+
+BRANCHING:
+git branch (veo todas las branches)
+git branch nombreBranch (crea un branch)
+git checkout nombreBranch (ingresa a esa branch)
+
+MERGE, Incorporar cambios de un branch a la master branch:
+git merge nombreBranch
+

@@ -1,0 +1,5 @@
+npm install bcrypt
+
+Importo el bcrypt al fichero que crea el usuario.
+
+Lo mejor es utilizar async

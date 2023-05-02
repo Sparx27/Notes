@@ -1,0 +1,43 @@
+Serie de metodos y objetos que cuelgan de window (que es la ventana del navegador).
+No es estandarizado.
+
+
+METODOS
+
+window.innerWidth //Tamanio del viewport
+window.innerHeight
+
+window.outerwidth  //Tamanio de la ventana entera
+window.outerHeight
+
+window.scrollX
+
+window.scrollY  //Cuanto se aleja la barra vertical del origen top (en px)
+
+Coordenada en donde comienza a dibujarse la ventana del navegador:
+NOTA: En dos o mas pantallas puede que presente numeros negativos.
+window.screenX
+
+window.screenY
+
+
+EVENTOS
+
+window.addEventListener('rezise', e => window.innerWidth);
+target sera window
+
+window.addEventListener('scroll', e => window.scrollX);
+
+
+Event load: se va ejecutar cuando la ventana del navegador haya terminado de cargar.
+window.addEventListener('load', e => { window.screenY, window.screenX });
+
+window.addEventListener('DOMContentLoaded', e => { window.screenY, window.screenX });
+//DOMContentLoaded carga primero.
+
+DIFERENCIAS: Ambos son de tipo load, el path de DOMCLd es [document, window] y el de load es
+	    	 [window]. Es una buena practica para cuando hacer que algo se cargue en cuanto el
+		 DOM este listo, es mucho mas eficiente trabajar con DOMCLd (en asincronia).
+		 load es para cuando la pagina se cargo completamente. DOMCLd no espera a que se 
+		 carguen las hojas de estilo, img, subtramas o scripts para empezar a funcionar.
+

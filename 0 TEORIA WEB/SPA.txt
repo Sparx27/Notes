@@ -1,0 +1,64 @@
+Es una aplicacion de una sola pagina: 
+Todos los recursos y dependencias de esa aplicacion van a cargar a la hora en que se solicite al
+servidor ese archivo (ej index.html).
+Al hacer la peticion se vendran descargandose todas las tipografias, imagenes, estilos, archivos JS que
+esa aplicacion necesite para funcionar.
+
+En una pagina podria suceder que al pasar de una seccion a otra se tenga que recargar para recibir la
+informacion de esa seccion.
+
+En las SPA, todo el contenido se carga de una sola vez, dependiendo de la robustez de la SPA, puede que
+al iniciar demore un poco mas. Aunque se espera que inicialmente se cargue solo el contenido
+necesario y despues, a partir de las interacciones del usuario, cuando vaya cargando cada una de las
+secciones ahi ira solicitando de manera asincrona y dinamica el contenido.
+
+Las SPA trabajan con tecnologias asincronas, por lo tanto AJAX.
+
+
+RUTAS:
+En una SPA hay vistas y no paginas. Se muestra o se oculta el contenido necesario.
+
+Cuando cambia la URL: Depende, podria por funcionalidad aunque no seria necesario. Por usabilidad, es
+una muy buena opcion. Cuando se cambie de la vista del Home a otra Section, para el usuario final, si
+el ve que en su navegador cambia la url, el siente que esta accediendo a otra aplicacion. A su vez el
+navegador ira detectando esos cambios y guardandolos en el historial, esto permite que se pueda 
+regresar con los botones del navegador.
+
+Permite que tambien si el usuario le gusto y quiere guardarse una seccion de la SPA, pueda agregarla a
+favoritos simplemente copiando esa URL en particular.
+
+Como cambia la URL entonces: Gracias a dos elementos de la URL
+1)Objeto Location, el que guarda todas las partes que se van formando de la URL. Aqui hay dos manera de
+	de cambiar la URL sin necesidad de cambiar a una nueva ruta. Se logra a traves del Hash.
+	En una SPA, aun estando en la misma pagina, se puede cambiar la URL con el # de enlaces internos.
+2)Por el paso de variables o datos a la URL: por ejemplo cuando uno ve el "search?q=...".
+
+
+SEO EN LAS SPA:
+No tienen buena relacion con el Search Engine Optimization (De los motores de busqueda).
+Esos #, o los search?q=..., "ensucian" la URL, no son amigables con el SEO.
+
+Los Rastreadores que tienen los buscadores (crawler) que crean el posicionamiento en los resultados,
+trabajan analizando el codigo HTML que tiene una pagina.
+El problema con las SPA es que en su arquitectura, generalmente lo unico que hay en el cuerpo del HTML
+es un tag HTML con un ID y vacia. Esto porque con JS, se toma el ID de ese elemento vacio y carga
+dinamicamente el contenido de la SPA.
+
+Con el paso del tiempo, buscadores como Google y dado que los desarrolladors han adoptado a las SPAs,
+estos crawlers son un poco mas permisivos (han ido mejorando) a la hora de detectar el codigo HTML que 
+se genera dinamicamente.
+
+SOLUCIONES:
+Generadores de sitios estaticos (SSG o Static Sites Generators).
+
+SSR o Server Site Rendering (Renderizado del lado del servidor) que con herramientos como Next en React
+lo que hacen es dinamicamente servir el contenido del lado del servidor.
+
+
+DESARROLLO:
+El Front se realiza en JavaScript.
+Al Back no le importa que lenguaje se use. Al ser la aplicacion algo del Front, las SPA permiten tener
+por separado el codigo Front, del codigo Back que proporciona los datos.
+
+En la SPA lo unico que va necesitar del Back son APIs en formato JSON (generalmente), consumirlas y
+generar contenido dinamico. El Front se desaclopa del Back.

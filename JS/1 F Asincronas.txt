@@ -1,0 +1,13 @@
+setTimeout( () => {
+	accion que se ejecuta 1 vez
+}, tiempo)
+
+setInterval( () => {
+	accion que se ejecuta cada x tiempo
+}, tiempo)
+
+
+clearTimeout(nombreVariable de setTimeout);
+* Primero se guarda el setTimeout en una variable
+
+clearInterval(nombreVariable de setTimeout);

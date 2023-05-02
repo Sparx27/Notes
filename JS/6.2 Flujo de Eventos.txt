@@ -1,0 +1,122 @@
+Como JS interpreta y trabaja con los eventos
+
+en HTML
+<section class='eventos-flujo>
+
+	<div class='uno>
+	1
+		<div class='dos'>
+		2
+			<div class='tres>
+			3
+			</div>
+		</div>
+	</div>
+
+</section>
+
+
+en CSS
+
+.eventos-flujo div {
+	padding: 4rem;
+	font-size: 2rem;
+	text-align: center;
+}
+
+.uno {
+	background-color: yellow;
+}
+.dos {
+	background-color: gold;
+}
+.tres {
+	background-color: lightyellow;
+}
+
+
+
+FLUJO DE EVENTOS
+Una vez que un evento se origina, tiene una propagacion a lo largo del
+arbol del DOM.
+
+FASE BURBUJA
+Por defecto, esa propagacion se va dando del elemento mas interno, hacia
+el elemento mas externo (document). Esa fase se llama, fase de burbuja.
+Solo imagina una persona soplando para crear una burbuja, como se va
+expandiendo.
+.addEventListener tiene 3 parametros, el tercero por defecto se encuentra en false y eso tiene el
+dicho comportamiento de burbuja.
+
+const $divsEventos = document.querySelectorAll('.eventos-flujo div');
+
+function flujoEventos(e) {
+	console.log('Hola te saluda ${this.className}, el click lo origino ${e.target.className}')
+}
+
+$divsEventos.forEach(div => {
+	div.addEventListener('click', flujoEventos);
+});
+
+
+
+FASE DE CAPTURA
+Va desde el elemento mas externo al mas interno.
+
+
+TERCER PARAMETRO DE .addEventListener
+Tiene varios valores, algunos:
+{ 
+  capture: true,
+  once: true //ese evento se va a ejecutar una sola vez
+}
+
+
+
+PREVENIR COMPORTAMIENTOS QUE EL BROWSER TIENE COMO DEFAULT
+
+En el div 3 se agrega un enlace:
+
+			<div class='tres>
+			3
+			<a href="http://..." target="_blank" rel="noopener">Page</a>
+			</div>
+
+ELIMINAR PROPAGACION:
+
+function flujoEventos(e) {
+	console.log('Hola te saluda ${this.className}, el click lo origino ${e.target.className}');
+	e.stopPropagation(); //ELIMINA LA PROPAGACION
+}
+
+$divsEventos.forEach(div => {
+	div.addEventListener('click', flujoEventos);
+});
+
+
+PREVENT DEFAULT:
+Cancela la accion que tenga el elemento por default. Esto permite la personalizacion en el
+comportamiento de los elementos HTML.
+
+Ahora se agrega un selector para el enlace:
+$linkEventos = document.querySelector(".eventos-flujo a");
+
+$linkEventos.addEventListener('click', (e) => {
+	alert('un mensaje en pantalla');
+	e.preventDefault();  //EL ENLACE YA NO SE COMPORTA DE MANERA DEFAULT, SOLO ENVIA alert
+	e.stopPropagation();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+

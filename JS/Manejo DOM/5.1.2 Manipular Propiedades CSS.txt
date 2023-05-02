@@ -1,0 +1,32 @@
+PARA ESTILOS EN LINEA:
+
+const $divBox document.querySelector('.box');
+
+$divBox.style	//Accede a todos los estilos en linea.
+			//Enumeran primero las reglas CSS no vacias.
+
+$divBox.style.backgroundColor
+
+Con $divBox.getAttribute("style"); se muestran los especificados
+solamente.
+
+Las propiedades estan en lowerCamelCase (sin - que usa css).
+background-color seria backgroundColor.
+
+
+
+PROPIEDADES DINAMICAS (de las web APIs de los navegadores)
+
+window.getComputedStyle(nombre del elemento);
+
+Ahora mapea y a cada propiedad le asigna un indice.
+Ahora mostrara todos los valores por defecto que el navegador le da a ese
+elemento html.
+
+
+
+
+CUSTOM PROPERTIES CSS
+
+Acceder a variables css
+

@@ -1,0 +1,6 @@
+Hago un npm sintall standard
+En package.json: 
+
+"eslintConfig": {
+  "extends": "./node_modules/standard/eslintrc.json"
+},

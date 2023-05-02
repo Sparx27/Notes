@@ -1,0 +1,26 @@
+npm i react-circular-progressbar
+
+import {CircularProgressbar, buildStyles} from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
+
+
+const BudgetControl = ({ budget, expenses }) => {
+
+	...
+
+return (
+    <div  className='contenedor-presupuesto contenedor sombra dos-columnas'>
+
+      <div>
+        <CircularProgressbar
+          styles={buildStyles({	// EN LA DOCUMENTACION DICE QUE SE PUEDE EDITAR
+            pathColor: '#3B82F6',
+            trailColor: 'F5F5F5'
+          })}
+          value={spentPercentage}	// DEL 0% AL 100%
+          text={`${spentPercentage}% Spent`}
+        />
+      </div>
+
+	...
+}

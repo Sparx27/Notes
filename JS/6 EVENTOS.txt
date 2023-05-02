@@ -1,0 +1,104 @@
+Las funciones que se ejectuan en un evento son los Event Handlers o Listeners
+
+Hay 3 maneras de definir los eventos en JavaScript:
+
+DOCUMENTACION: https://developer.mozilla.org/es/docs/Web/Events
+
+NOTA: Todos los eventos en JS empiezan con "on"
+
+
+FORMAS DE DESENCADENAR UN EVENTO:
+
+1) Teniendo un evento como si fuera un atributo de un HTML.
+
+<button onClick='codigo JS'>Evento en HTML</button>
+*ej: onClick='alert(hola)'
+
+
+Crear una funcion (en un documento JS) de Event Handler:
+
+function holaMundo() {
+	alert('Hola Mundo!');
+}
+
+Luego en el html el button: <button onClick='holaMundo()'>
+
+Cuando una funcion se transforma en un manejador de eventos, se puede acceder a un
+objeto especial, que es uno que se puede acceder con la palabra reservada:
+event
+
+Con console.log(event) en la funcion, podria ver propiedades de ese objeto.
+
+
+
+2) Evento con manejador semantico.
+*Se le llama asi por la coherencia que tiene cuando se la va definiendo*
+
+<button id='evento-semantico'>Boton</button>
+
+
+En el archivo JS:
+
+const $eventoSemantico = document.getElementById('evento-semantico');
+
+$eventoSemantico.onclick = holaMundo;
+**IMPORTANTE: la funcion sin los (), porque sino se ejecuta nada mas ingresar a
+la pagina**
+
+Tienen una limitante: Una vez definido el efecto semantico, solamente va a poder
+ejecutar una sola funcion.
+
+
+Otra manera de definir un manejador semantico:
+
+$eventoSemantico.onclick = function() {
+	alert('Hola Mundo!');
+}
+
+//La funcion no puede tomar parametros, el unico que toma por defecto es el 
+  objeto event.
+//Lo que puede suceder es que para simplificar la palabra event, se haga un
+  function(e) {...}
+
+
+
+3) Definir distintas funciones a un mismo elemento: Manejadores Multiples
+
+<button id='evento-multiple'>Boton</button>
+
+
+En el archivo JS:
+
+const $eventoMultiple = document.getElementById('evento-multiple');
+
+$eventoMultiple.addEventListener('nombre del evento', listener o funcion)
+$eventoMultiple.addEventListener('segundo evento', listener o funcion)
+
+NOTA: Los eventos van sin el "on" y la funcion va sin los ()
+
+Quedaria entonces:
+$eventoMultiple.addEventListener('click', holaMundo);
+
+
+DOS COSAS IMPORTANTES: 
+event.type: tipo de evento
+event.target: codigo HTML que origino el evento
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
